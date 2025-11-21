@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👀3080 PDF - Videos</title>
+
+<!-- Google Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  body { margin:0; font-family: Arial, sans-serif; background:#f5f7fb; color:#333; }
+
+  /* HEADER */
+  .header { background: linear-gradient(to right,#0a8f3f,#21b04c); padding:15px 20px; display:flex; justify-content:space-between; align-items:center; color:white; position:sticky; top:0; z-index:1000; }
+  .header-left { display:flex; align-items:center; gap:10px; }
+  .header-left img { width:40px; height:40px; object-fit:contain; }
+  .header-title { font-size:22px; font-weight:bold; }
+  .nav-icons { display:flex; gap:20px; }
+  .nav-icons a { color:white; text-decoration:none; }
+  .nav-icons i { font-size:28px; cursor:pointer; transition:0.2s; }
+  .nav-icons i:hover { transform:scale(1.1); }
+
+  /* MAIN CONTAINER */
+  .container { max-width:1200px; margin:30px auto; padding:0 15px; }
+  h2 { font-size:26px; color:#1d2c3b; margin-bottom:15px; }
+
+  /* SEARCH */
+  .search-bar { display:flex; margin-bottom:20px; gap:10px; }
+  .search-bar input { flex:1; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:16px; }
+  .search-bar button { padding:10px 20px; border:none; border-radius:6px; background:#0b923f; color:white; cursor:pointer; font-size:16px; }
+  .search-bar button:hover { background:#158b39; }
+
+  /* VIDEO GRID */
+  .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:15px; }
+
+  .video-card { background:white; border-radius:10px; padding:12px; box-shadow:0 3px 7px rgba(0,0,0,0.1); display:flex; flex-direction:column; }
+  .video-card h3 { font-size:16px; margin-bottom:8px; color:#0b923f; }
+  .video-card iframe { width:100%; height:160px; border-radius:6px; border:none; margin-bottom:8px; }
+  .video-card .actions { display:flex; justify-content:space-between; gap:10px; }
+  .video-card a, .video-card button { padding:6px 12px; border-radius:6px; border:none; text-decoration:none; font-size:14px; cursor:pointer; text-align:center; }
+  .video-card a { background:#0b923f; color:white; flex:1; }
+  .video-card button { background:#17673a; color:white; flex:1; }
+  .video-card a:hover, .video-card button:hover { opacity:0.9; }
+
+  .success-msg { background:#e1f7e7; border:1px solid #0b923f; padding:12px; border-radius:8px; margin-bottom:15px; color:#0b923f; display:none; text-align:center; }
+
+  /* RELATED VIDEOS */
+  .related-videos { margin-top:30px; }
+  .related-videos h3 { margin-bottom:15px; }
+  .related-videos .video-grid { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
+    <span class="header-title">👀3080 PDF </span>
+  </div>
+  <div class="nav-icons">
+    <a href="pdf.html"><i class="material-icons-round">home</i></a>
+    <a href="course.html"><i class="material-icons-round">description</i></a>
+    <a href="videos.html"><i class="material-icons-round" style="border-bottom:2px solid white; padding-bottom:3px;">play_circle</i></a>
+    <a href="about.html"><i class="material-icons-round">info</i></a>
+  </div>
+</div>
+
+<div class="container">
+  <h2>Course Videos</h2>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search videos by course or keyword...">
+    <button id="searchBtn">Search</button>
+  </div>
+
+  <div class="success-msg" id="successMsg">Link copied to clipboard!</div>
+
+  <div id="videoList" class="video-grid">
+    <!-- Videos will load here -->
+  </div>
+
+  <div class="related-videos">
+    <h3>Related Videos</h3>
+    <div id="relatedList" class="video-grid">
+      <!-- Related videos -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // SUPABASE CONFIG
+  const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+  const BUCKET = "uploads";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const videoList = document.getElementById("videoList");
+  const relatedList = document.getElementById("relatedList");
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const successMsg = document.getElementById("successMsg");
+
+  // Create a video card
+  function createVideoCard(title, url) {
+    const card = document.createElement("div");
+    card.className = "video-card";
+    card.innerHTML = `
+      <h3>${title}</h3>
+      <iframe src="${url}" allowfullscreen></iframe>
+      <div class="actions">
+        <a href="${url}" target="_blank">Watch Video</a>
+        <button class="copy-btn" data-url="${url}">Copy Link</button>
+      </div>
+    `;
+    card.querySelector(".copy-btn").addEventListener("click", () => {
+      navigator.clipboard.writeText(url).then(() => {
+        successMsg.style.display = "block";
+        setTimeout(() => successMsg.style.display = "none", 2000);
+      });
+    });
+    return card;
+  }
+
+  // Load videos from Supabase
+  async function loadVideos(query="") {
+    videoList.innerHTML = "<p>Loading videos...</p>";
+    relatedList.innerHTML = "<p>Loading related videos...</p>";
+
+    const { data, error } = await supabase.storage.from(BUCKET).list("videos/", { limit: 500 });
+
+    if (!data || data.length === 0) {
+      videoList.innerHTML = "<p>No videos found.</p>";
+      relatedList.innerHTML = "";
+      return;
+    }
+
+    const filtered = data.filter(file => file.name.toLowerCase().includes(query.toLowerCase()));
+
+    videoList.innerHTML = "";
+    relatedList.innerHTML = "";
+
+    filtered.forEach((file, index) => {
+      const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/videos/${file.name}`;
+      const title = file.name.replace(/\.[^/.]+$/, "");
+      const card = createVideoCard(title, url);
+      videoList.appendChild(card);
+
+      // Show first 3 related videos (different from clicked video ideally)
+      if (relatedList.childElementCount < 3) {
+        const relatedCard = createVideoCard(title, url);
+        relatedList.appendChild(relatedCard);
+      }
+    });
+
+    if (filtered.length === 0) {
+      videoList.innerHTML = "<p>No videos match your search.</p>";
+    }
+  }
+
+  // Initial load
+  loadVideos();
+
+  // Search
+  searchBtn.addEventListener("click", () => {
+    const query = searchInput.value.trim();
+    loadVideos(query);
+  });
+
+  searchInput.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") loadVideos(searchInput.value.trim());
+  });
+</script>
+
+</body>
+</html>
