@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Course Documents</title>
+
+<!-- GOOGLE ICONS -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f7fa;
+    }
+
+    /* HEADER */
+    .header {
+        background: linear-gradient(to right, #0a8f3f, #21b04c);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-left img {
+        width: 40px; /* adjust as needed */
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .header-title {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .nav-icons {
+        display: flex;
+        gap: 25px;
+        margin-right: 10px;
+    }
+
+    .nav-icons a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-icons i {
+        font-size: 28px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .nav-icons i:hover {
+        transform: scale(1.1);
+    }
+
+    /* MAIN SECTION */
+    .container {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    h2 {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #1d2c3b;
+    }
+
+    h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #17673a;
+        border-bottom: 3px solid #1db954;
+        display: inline-block;
+        padding-bottom: 3px;
+    }
+
+    /* COURSE BUTTON GRID */
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .course-btn {
+        background: #23a34c;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        text-decoration: none; /* for <a> */
+        display: inline-block;
+    }
+
+    .course-btn:hover {
+        background: #178a38;
+    }
+
+    /* NOTICE BOX */
+    .notice-box {
+        margin-top: 25px;
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        color: #555;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-left">
+        <!-- Site Logo -->
+        <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Site Logo">
+        <span class="header-title">👀3080 PDF</span>
+    </div>
+
+    <div class="nav-icons">
+        <a href="pdf.html"><i class="material-icons-round">home</i></a>
+        <a href="course"><i class="material-icons-round" style="border-bottom: 2px solid white; padding-bottom: 3px;">description</i></a>
+        <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
+        <a href="about.html"><i class="material-icons-round">info</i></a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <h2>Browse Course Documents</h2>
+
+    <h3>Available Courses</h3>
+
+     <div class="course-grid">
+        <a href="course.html?code=CHM101" class="course-btn">CHM101</a>
+        <a href="course.html?code=BIO101" class="course-btn">BIO101</a>
+        <a href="course.html?code=COS101" class="course-btn">COS101</a>
+        <a href="course.html?code=PHY101" class="course-btn">PHY101</a>
+        <a href="course.html?code=GNS101" class="course-btn">GNS101/103</a>
+        <a href="course.html?code=MTH101" class="course-btn">MTH101/105</a>
+        <a href="course.html?code=MTH211" class="course-btn">MTH211</a>
+        <a href="course.html?code=BCH201" class="course-btn">BCH/BCM201</a>
+    </div>
+
+   
+
+    <div class="notice-box">
+        <b>Note:</b> To download documents of a course, select your preferred course first.  
+        You will then see all documents available under that course.  
+        <br><br>
+        All downloads are saved inside a folder named <b>EYES OF 3080</b> in your phone’s Download folder.
+    </div>
+
+</div>
+
+</body>
+</html>
