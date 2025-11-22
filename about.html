@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About 👀3080PDF</title>
+
+<!-- Google Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #333;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(to right, #0a8f3f, #21b04c);
+    padding: 15px 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-left img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .header-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .nav-icons a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 25px;
+    padding-bottom: 3px;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s;
+  }
+
+  .nav-icons a.active {
+    border-bottom: 3px solid white; /* underline active page */
+  }
+
+  /* PAGE CONTAINER */
+  .container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+
+  /* Cards */
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .card {
+    flex: 1 1 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  .card h3 {
+    color: #0b923f;
+    margin-bottom: 10px;
+    display: inline-block;
+    border-bottom: 3px solid #0b923f;
+    padding-bottom: 5px;
+  }
+
+  .card p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #0b923f;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .card a:hover {
+    background: #158b39;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
+      <span class="header-title">👀3080 PDF</span>
+  </div>
+  <div class="nav-icons">
+      <a href="pdf.html" data-page="home"><i class="material-icons-round">home</i></a>
+      <a href="course.html" data-page="courses"><i class="material-icons-round">description</i></a>
+      <a href="videos.html" data-page="videos"><i class="material-icons-round">play_circle</i></a>
+      <a href="about.html" data-page="about"><i class="material-icons-round">info</i></a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+  <div class="card-container">
+    <!-- Our Mission Card -->
+    <div class="card">
+      <h3>Our Mission</h3>
+      <p>
+        👀3080PDF is a comprehensive student companion platform designed specifically for Osun State University (UNIOSUN) students. Our main purpose is to bring simplicity and easier access to information and knowledge, without the limitations of WhatsApp groups.  
+        We centralize academic resources, announcements, and communication channels in one structured, searchable, and organized environment for all your academic needs.
+      </p>
+    </div>
+
+    <!-- Logo Card -->
+    <div class="card">
+      <h3>Platform Logo</h3>
+      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
+      <p>Recognize our platform and its identity across all resources and channels.</p>
+    </div>
+
+    <!-- UNIOSUN Channels Card -->
+    <div class="card">
+      <h3>UNIOSUN Channels</h3>
+      <p>Follow UNIOSUN-related channels to stay updated with academic resources and announcements.</p>
+      <a href="https://whatsapp.com/channel/0029Vb5GgTd7YSd37MohjE34" target="_blank">Join Channel →</a>
+    </div>
+
+    <!-- Features Card -->
+    <div class="card">
+      <h3>Features</h3>
+      <p>Access course documents, videos, and notes in a clean and organized interface. No more messy WhatsApp groups.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Highlight the active header icon
+  const navLinks = document.querySelectorAll('.nav-icons a');
+  const currentPage = window.location.pathname.split("/").pop();
+
+  navLinks.forEach(link => {
+    const page = link.dataset.page;
+    if ((page === "about" && currentPage === "about.html") ||
+        (page === "home" && currentPage === "index.html") ||
+        (page === "courses" && currentPage === "courses.html") ||
+        (page === "videos" && currentPage === "videos.html")) {
+      link.classList.add('active');
+    }
+  });
+</script>
+
+</body>
+</html>
