@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Course Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(to right, #0a8f3f, #21b04c);
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-left img {
+      width: 35px;
+      height: 35px;
+      margin-right: 10px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .nav-icons a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 25px;
+    }
+
+    /* PAGE CONTAINER */
+    .container {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #0b923f;
+    }
+
+    /* Accordion Styles */
+    .accordion-item {
+      margin-bottom: 10px;
+    }
+
+    .accordion-btn {
+      width: 100%;
+      background: #0b923f;
+      color: white;
+      padding: 14px 16px;
+      text-align: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 8px;
+      transition: 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordion-btn:hover {
+      background: #158b39;
+    }
+
+    .arrow {
+      transition: transform 0.3s;
+    }
+
+    .accordion-content {
+      padding: 10px 15px;
+      display: none;
+      background: #f9f9f9;
+      overflow: hidden;
+      border-left: 2px solid #0b923f;
+      border-right: 2px solid #0b923f;
+      border-bottom: 2px solid #0b923f;
+      border-radius: 0 0 8px 8px;
+    }
+
+    /* Uploaded File Cards */
+    .item {
+      background: white;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+    }
+
+    .item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .item .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #0b923f;
+      word-break: break-word;
+    }
+
+    .item .actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .item .actions a,
+    .item .actions button {
+      padding: 6px 12px;
+      margin-left: 6px;
+      border-radius: 6px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .item .actions a {
+      background: #0b923f;
+      color: white;
+      text-decoration: none;
+    }
+
+    .item .actions button {
+      background: #e0f7e6;
+      color: #0b923f;
+    }
+
+    /* Video Card */
+    .video-item .actions a {
+      background: #0b923f;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .video-item .actions a i {
+      margin-right: 6px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+        <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Site Logo">
+        <span class="header-title">👀3080 PDF</span>
+    </div>
+    <div class="nav-icons">
+        <a href="pdf"><i class="material-icons-round">home</i></a>
+        <a href="pdf"><i class="material-icons-round" style="border-bottom: 2px solid white; padding-bottom: 3px;">description</i></a>
+        <a href="pdf"><i class="material-icons-round">play_circle</i></a>
+        <a href="pdf"><i class="material-icons-round">info</i></a>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+<div class="container">
+
+  <!-- Course Description -->
+  <div class="course-description">
+    <h2 id="courseTitle">Course Title</h2>
+    <p id="courseDesc">
+      This is a brief description of the course. You can write about the topics, objectives, and key points students should know.
+    </p>
+  </div>
+
+  <!-- Accordion Sections -->
+  <div class="accordion">
+
+    <div class="accordion-item">
+      <button class="accordion-btn">Course Notes <span class="arrow">▼</span></button>
+      <div class="accordion-content" id="notesList">
+        <p>Loading notes...</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn">Course Resources <span class="arrow">▼</span></button>
+      <div class="accordion-content" id="resourcesList">
+        <p>Loading resources...</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn">Course Documents <span class="arrow">▼</span></button>
+      <div class="accordion-content" id="pdfList">
+        <p>Loading documents...</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn">Course Videos <span class="arrow">▼</span></button>
+      <div class="accordion-content" id="videosList">
+        <p>Loading videos...</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const SUPABASE_URL = "https://vtpsruejncfykiazrfsx.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cHNydWVqbmNmeWtpYXpyZnN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY3NDA5NzQsImV4cCI6MjA3MjMxNjk3NH0.UV55gbsSAgnyolxJhIYTaJUpvoJFsJn0_-LMNwhwAK0";
+  const BUCKET = "uploads";
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const params = new URLSearchParams(window.location.search);
+  const courseCode = params.get("code") || "DEFAULT_COURSE";
+
+  // ===== Load Course Description =====
+  async function loadCourseDescription() {
+    try {
+      const { data, error } = await sb
+        .from('courses')               // your Supabase table
+        .select('title, description')
+        .eq('code', courseCode)
+        .single();
+
+      if (data) {
+        document.getElementById('courseTitle').textContent = data.title;
+        document.getElementById('courseDesc').textContent = data.description;
+      } else {
+        document.getElementById('courseTitle').textContent = courseCode;
+        document.getElementById('courseDesc').textContent = "No description available.";
+      }
+    } catch (err) {
+      console.error("Error loading course description:", err);
+      document.getElementById('courseDesc').textContent = "Failed to load description.";
+    }
+  }
+
+  loadCourseDescription();
+
+
+  // ===== File & Video Cards =====
+  function createItem(file, type) {
+    const fileURL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${courseCode}/${type}/${file.name}`;
+    const topic = file.name.replace(/\.[^/.]+$/, "");
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerHTML = `
+      <span class="title">${topic}</span>
+      <div class="actions">
+        <a href="${fileURL}" target="_blank">Download</a>
+        <button class="copy-btn" data-url="${fileURL}">Copy Link</button>
+      </div>
+    `;
+    return item;
+  }
+
+  function createVideoItem(file, type) {
+    const topic = file.name.replace(/\.[^/.]+$/, "");
+    const videoId = encodeURIComponent(file.name);
+    const item = document.createElement("div");
+    item.className = "item video-item";
+    item.innerHTML = `
+      <span class="title">${topic}</span>
+      <div class="actions">
+        <a href="vdetails.html?id=${videoId}">
+          <i class="material-icons-round">play_circle</i> Play
+        </a>
+      </div>
+    `;
+    return item;
+  }
+
+  async function loadSection(type, sectionId, isVideo=false) {
+    try {
+      const { data } = await sb.storage.from(BUCKET).list(`${courseCode}/${type}`, { limit: 200 });
+      const list = document.getElementById(sectionId);
+      list.innerHTML = "";
+
+      if (!data || data.length === 0) {
+        list.innerHTML = `<p>No ${type} uploaded yet.</p>`;
+        return;
+      }
+
+      data.forEach(file => {
+        list.appendChild(isVideo ? createVideoItem(file, type) : createItem(file, type));
+      });
+
+      if(!isVideo){
+        list.querySelectorAll(".copy-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            navigator.clipboard.writeText(btn.dataset.url);
+            alert("Link Copied!");
+          });
+        });
+      }
+
+    } catch (err) {
+      console.error(`Error loading ${type}:`, err);
+      document.getElementById(sectionId).innerHTML = `<p>Error loading ${type}.</p>`;
+    }
+  }
+
+  loadSection("notes", "notesList");
+  loadSection("resources", "resourcesList");
+  loadSection("pdfs", "pdfList");
+  loadSection("videos", "videosList", true);
+
+  // ===== Accordion Toggle =====
+  document.querySelectorAll(".accordion-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const content = btn.nextElementSibling;
+      const arrow = btn.querySelector(".arrow");
+      if(content.style.display==="block"){
+        content.style.display="none";
+        arrow.style.transform="rotate(0deg)";
+      }else{
+        content.style.display="block";
+        arrow.style.transform="rotate(180deg)";
+      }
+    });
+  });
+
+});
+</script>
+</body>
+</html>
