@@ -17,49 +17,56 @@
   }
 
   /* HEADER */
-  .header {
-    background: linear-gradient(to right, #0a8f3f, #21b04c);
-    padding: 15px 20px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
+    .header {
+        background: linear-gradient(to right, #0a8f3f, #21b04c);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-  .header-left {
-    display: flex;
-    align-items: center;
-  }
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-  .header-left img {
-    width: 35px;
-    height: 35px;
-    margin-right: 10px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+    .header-left img {
+        width: 40px; /* adjust as needed */
+        height: 40px;
+        object-fit: contain;
+    }
 
-  .header-title {
-    font-size: 20px;
-    font-weight: bold;
-  }
+    .header-title {
+        font-size: 22px;
+        font-weight: bold;
+    }
 
-  .nav-icons a {
-    color: white;
-    text-decoration: none;
-    margin-left: 15px;
-    font-size: 25px;
-    padding-bottom: 3px;
-    border-bottom: 3px solid transparent;
-    transition: 0.2s;
-  }
+    .nav-icons {
+        display: flex;
+        gap: 25px;
+        margin-right: 10px;
+    }
 
-  .nav-icons a.active {
-    border-bottom: 3px solid white; /* underline active page */
-  }
+    .nav-icons a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-icons i {
+        font-size: 28px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .nav-icons i:hover {
+        transform: scale(1.1);
+    }
+
 
   /* PAGE CONTAINER */
   .container {
