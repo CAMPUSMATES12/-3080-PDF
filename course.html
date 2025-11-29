@@ -9,101 +9,106 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+  }
 
-    /* HEADER (UNCHANGED!) */
-    .header {
-        background: linear-gradient(to right, #0a8f3f, #21b04c);
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .header-left { display: flex; align-items: center; gap: 10px; }
-    .header-left img { width: 40px; height: 40px; object-fit: contain; }
-    .header-title { font-size: 22px; font-weight: bold; }
-
-    .nav-icons { display: flex; gap: 25px; margin-right: 10px; }
-    .nav-icons a { color: white; text-decoration: none; }
-    .nav-icons i { font-size: 28px; cursor: pointer; transition: 0.2s; }
-    .nav-icons i:hover { transform: scale(1.1); }
-
-    /* PAGE */
-    .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h2 { margin-bottom: 20px; color: #0b923f; }
-
-    /* Accordion */
-    .accordion-item { margin-bottom: 10px; }
-    .accordion-btn {
-      width: 100%;
-      background: #0b923f;
+  /* HEADER */
+  .header {
+      background: linear-gradient(to right, #0a8f3f, #21b04c);
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       color: white;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .accordion-content {
-      display: none;
-      background: #f9f9f9;
-      padding: 10px 15px;
-      border-left: 2px solid #0b923f;
-      border-right: 2px solid #0b923f;
-      border-bottom: 2px solid #0b923f;
-      border-radius: 0 0 8px 8px;
-    }
-    .arrow { transition: 0.3s; }
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+  }
 
-    /* NEW PDF CARD (MATCHES YOUR SCREENSHOT) */
-    .doc-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 25px;
-        margin: 20px 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-    .doc-title {
-        color: #2e6b2e;
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .doc-date {
-        font-size: 14px;
-        color: #555;
-        margin-bottom: 15px;
-    }
-    .doc-actions { display: flex; gap: 12px; }
-    .doc-btn {
-        background: #dff0ea;
-        padding: 10px 18px;
-        border-radius: 12px;
-        border: none;
-        text-decoration: none;
-        color: #093c27;
-        display: flex;
-        align-items: center;
-        font-weight: 600;
-    }
-    .doc-btn:hover { background: #cde5dc; }
-    .doc-btn i { margin-right: 6px; }
-  </style>
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .header-left img { width: 40px; height: 40px; object-fit: contain; }
+  .header-title { font-size: 22px; font-weight: bold; }
+
+  .nav-icons { display: flex; gap: 25px; margin-right: 10px; }
+  .nav-icons a { color: white; text-decoration: none; }
+  .nav-icons i { font-size: 28px; cursor: pointer; transition: 0.2s; }
+  .nav-icons i:hover { transform: scale(1.1); }
+
+  /* REMOVE ACTIVE UNDERLINE */
+  .nav-icons a.active i {
+      border-bottom: none; /* ensures no underline */
+  }
+
+  /* PAGE */
+  .container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+
+  h2 { margin-bottom: 20px; color: #0b923f; }
+
+  /* Accordion */
+  .accordion-item { margin-bottom: 10px; }
+  .accordion-btn {
+    width: 100%;
+    background: #0b923f;
+    color: white;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .accordion-content {
+    display: none;
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-left: 2px solid #0b923f;
+    border-right: 2px solid #0b923f;
+    border-bottom: 2px solid #0b923f;
+    border-radius: 0 0 8px 8px;
+  }
+  .arrow { transition: 0.3s; }
+
+  /* NEW PDF CARD */
+  .doc-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .doc-title {
+      color: #2e6b2e;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 5px;
+  }
+  .doc-date {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+  }
+  .doc-actions { display: flex; gap: 12px; }
+  .doc-btn {
+      background: #dff0ea;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: none;
+      text-decoration: none;
+      color: #093c27;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+  }
+  .doc-btn:hover { background: #cde5dc; }
+  .doc-btn i { margin-right: 6px; }
+</style>
 </head>
 
 
