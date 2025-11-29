@@ -63,10 +63,7 @@
         padding-bottom: 3px;
     }
 
-    /* Active page underline */
-    .nav-icons a.active i {
-        border-bottom: 2px solid white;
-    }
+    
 
     .nav-icons i:hover {
         transform: scale(1.1);
@@ -144,12 +141,12 @@
         <span class="header-title">👀3080 PDF</span>
     </div>
 
-      <div class="nav-icons">
-        <a href="pdf.html"><i class="material-icons-round">home</i></a>
-        <a href="course.html"><i class="material-icons-round" style="border-bottom: 2px solid white; padding-bottom: 3px;">description</i></a>
-        <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
-        <a href="about.html"><i class="material-icons-round">info</i></a>
-    </div>
+     <div class="nav-icons">
+    <a href="pdf.html"><i class="material-icons-round">home</i></a>
+    <a href="course.html"><i class="material-icons-round">description</i></a>
+    <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
+    <a href="about.html"><i class="material-icons-round">info</i></a>
+</div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -189,16 +186,7 @@
 
 </div>
 
-<script>
-// Highlight the active header link
-const links = document.querySelectorAll(".nav-icons a");
-const current = window.location.pathname.split("/").pop(); // get current filename
-links.forEach(link => {
-    if(link.getAttribute("href") === current){
-        link.classList.add("active");
-    }
-});
-</script>
+
 
 </body>
 </html>
