@@ -235,11 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-/* ===== LOAD COURSE VIDEOS ONLY ===== */
-
 async function loadCourseVideos() {
   try {
-    const { data, error } = await sb.storage
+    const { data } = await sb.storage
       .from(BUCKET)
       .list(`${courseCode}/videos`, { limit: 200 });
 
@@ -251,34 +249,84 @@ async function loadCourseVideos() {
       return;
     }
 
-    data.forEach(file => {
+    for (const file of data) {
       const title = file.name.replace(/\.[^/.]+$/, "");
-      const videoId = encodeURIComponent(file.name);
       const date = new Date(file.created_at).toLocaleString();
 
-      const card = document.createElement("div");
-      card.className = "doc-card video-card";
-      card.innerHTML = `
-        <h3 class="doc-title">${title}</h3>
-        <p class="doc-date">${date}</p>
+      // Get the TXT content (YouTube link)
+      const { data: fileData, error: downloadError } = await sb.storage
+        .from(BUCKET)
+        .download(`${courseCode}/videos/${file.name}`);
 
-        <div class="doc-actions">
-          <a href="vdetails.html?id=${videoId}" class="doc-btn">
-            <i class="material-icons-round">play_circle</i> Play
-          </a>
+      if (downloadError) continue;
+
+      const text = await fileData.text();
+      let videoId = null;
+
+      try {
+        const urlObj = new URL(text.trim());
+        videoId = urlObj.searchParams.get("v");
+      } catch {}
+
+      // If videoId is invalid, skip this file
+      if (!videoId) continue;
+
+      // Generate YouTube thumbnail
+      const thumbnailURL = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+      // Create Video Card
+      const card = document.createElement("div");
+      card.className = "video-card";
+      card.style.cssText = `
+        background: #fff;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 18px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      `;
+
+      card.innerHTML = `
+        <img src="${thumbnailURL}" 
+             style="width:120px;height:70px;object-fit:cover;border-radius:12px;" />
+
+        <div style="flex:1;">
+          <h3 style="margin:0;color:#236d2c;font-size:18px;font-weight:700;">
+            ${title}
+          </h3>
+
+          <p style="margin:4px 0;color:#666;font-size:13px;">
+            ${date}
+          </p>
         </div>
+
+        <a href="video.html?id=${encodeURIComponent(file.name)}&code=${courseCode}" 
+           style="
+             background:#1bb44a;
+             padding:10px 18px;
+             color:white;
+             border-radius:10px;
+             text-decoration:none;
+             font-weight:700;
+           ">
+           Play
+        </a>
       `;
 
       videoList.appendChild(card);
-    });
+    }
 
   } catch (err) {
     document.getElementById("videoList").innerHTML = "<p>Error loading videos.</p>";
+    console.error(err);
   }
 }
 
 // CALL FUNCTION
 loadCourseVideos();
+
   /* ACCORDION */
   document.querySelectorAll(".accordion-btn").forEach(btn => {
       btn.addEventListener("click", () => {
