@@ -35,7 +35,7 @@
     }
 
     .header-left img {
-        width: 40px; /* adjust as needed */
+        width: 40px;
         height: 40px;
         object-fit: contain;
     }
@@ -60,6 +60,12 @@
         font-size: 28px;
         cursor: pointer;
         transition: 0.2s;
+        padding-bottom: 3px;
+    }
+
+    /* Active page underline */
+    .nav-icons a.active i {
+        border-bottom: 2px solid white;
     }
 
     .nav-icons i:hover {
@@ -107,7 +113,7 @@
         font-weight: bold;
         cursor: pointer;
         transition: 0.2s;
-        text-decoration: none; /* for <a> */
+        text-decoration: none;
         display: inline-block;
     }
 
@@ -134,12 +140,11 @@
 <!-- HEADER -->
 <div class="header">
     <div class="header-left">
-        <!-- Site Logo -->
         <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Site Logo">
         <span class="header-title">👀3080 PDF</span>
     </div>
 
-    <div class="nav-icons">
+      <div class="nav-icons">
         <a href="pdf.html"><i class="material-icons-round">home</i></a>
         <a href="course.html"><i class="material-icons-round" style="border-bottom: 2px solid white; padding-bottom: 3px;">description</i></a>
         <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
@@ -154,7 +159,7 @@
 
     <h3>Available Courses</h3>
 
-     <div class="course-grid">
+   <div class="course-grid">
         <a href="course.html?code=CHM101" class="course-btn">CHM101</a>
         <a href="course.html?code=BIO101" class="course-btn">BIO101</a>
         <a href="course.html?code=COS101" class="course-btn">COS101</a>
@@ -175,9 +180,6 @@
         <a href="course.html?code=MCB207" class="course-btn">MCB207</a>
         <a href="course.html?code=MCB209" class="course-btn">MCB209</a>
         </div>
-
-   
-
     <div class="notice-box">
         <b>Note:</b> To download documents of a course, select your preferred course first.  
         You will then see all documents available under that course.  
@@ -186,6 +188,17 @@
     </div>
 
 </div>
+
+<script>
+// Highlight the active header link
+const links = document.querySelectorAll(".nav-icons a");
+const current = window.location.pathname.split("/").pop(); // get current filename
+links.forEach(link => {
+    if(link.getAttribute("href") === current){
+        link.classList.add("active");
+    }
+});
+</script>
 
 </body>
 </html>
