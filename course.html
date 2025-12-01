@@ -1,349 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Course Details</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👀3080 PDF</title>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- GOOGLE ICONS -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
 
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-  }
+/* BODY & HEADER STYLES SAME AS BEFORE */
+body { margin:0; font-family:Arial,sans-serif; background:#f2f7fa; }
+.header { background: linear-gradient(to right, #0a8f3f, #21b04c); padding:15px; display:flex; align-items:center; justify-content:space-between; color:white; position:sticky; top:0; z-index:1000; }
+.header-left { display:flex; align-items:center; gap:10px; }
+.header-left img { width:40px; height:40px; object-fit:contain; }
+.header-title { font-size:22px; font-weight:bold; }
+.nav-icons { display:flex; gap:25px; margin-right:10px; }
+.nav-icons a { color:white; text-decoration:none; }
+.nav-icons i { font-size:28px; cursor:pointer; transition:0.2s; padding-bottom:3px; }
+.nav-icons i:hover { transform:scale(1.1); }
+.container { padding:20px; max-width:900px; margin:auto; }
+.course-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:12px; margin-top:15px; }
+.course-btn { background:#23a34c; color:white; padding:12px; border-radius:8px; text-align:center; font-size:16px; font-weight:bold; cursor:pointer; transition:0.2s; text-decoration:none; display:inline-block; }
+.course-btn:hover { background:#178a38; }
 
-  /* HEADER */
-  .header {
-      background: linear-gradient(to right, #0a8f3f, #21b04c);
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-  }
+/* TITLES */
+h2.browse-title { 
+    font-size:28px; 
+    font-weight:700; 
+    color:#1d2c3b; 
+    text-decoration: underline; 
+    text-decoration-color: #21b04c; 
+    margin-bottom:12px; 
+}
 
-  .header-left { display: flex; align-items: center; gap: 10px; }
-  .header-left img { width: 40px; height: 40px; object-fit: contain; }
-  .header-title { font-size: 22px; font-weight: bold; }
+h3.available-courses { 
+    font-size:22px; 
+    color:#21b04c; 
+    margin-bottom:15px; 
+}
 
-  .nav-icons { display: flex; gap: 25px; margin-right: 10px; }
-  .nav-icons a { color: white; text-decoration: none; }
-  .nav-icons i { font-size: 28px; cursor: pointer; transition: 0.2s; }
-  .nav-icons i:hover { transform: scale(1.1); }
+/* NOTICE BOX AS CARD */
+.notice-box { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    color: #555; 
+    font-size: 15px; 
+    line-height: 1.5; 
+    margin-top: 15px; 
+}
 
-  /* REMOVE ACTIVE UNDERLINE */
-  .nav-icons a.active i {
-      border-bottom: none; /* ensures no underline */
-  }
+/* COURSE DETAILS */
+.course-description h2 { font-size:26px; color:#1d2c3b; margin-bottom:10px; }
+.course-description p { font-size:16px; color:#555; margin-bottom:15px; }
 
-  /* PAGE */
-  .container {
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
-  }
+/* ACCORDION */
+.accordion-item { margin-bottom:10px; }
+.accordion-btn { width:100%; background:#0b923f; color:white; padding:14px 16px; border-radius:8px; border:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+.accordion-content { display:none; background:#f9f9f9; padding:10px 15px; border-left:2px solid #0b923f; border-right:2px solid #0b923f; border-bottom:2px solid #0b923f; border-radius:0 0 8px 8px; }
+.arrow { transition:0.3s; }
 
-  h2 { margin-bottom: 20px; color: #0b923f; }
+/* DOC CARD */
+.doc-card { background:#fff; border-radius:20px; padding:25px; margin:20px 0; box-shadow:0 4px 12px rgba(0,0,0,0.06); }
+.doc-title { color:#2e6b2e; font-size:20px; font-weight:700; margin-bottom:5px; }
+.doc-date { font-size:14px; color:#555; margin-bottom:15px; }
+.doc-actions { display:flex; gap:12px; }
+.doc-btn { background:#dff0ea; padding:10px 18px; border-radius:12px; border:none; text-decoration:none; color:#093c27; display:flex; align-items:center; font-weight:600; }
+.doc-btn:hover { background:#cde5dc; }
+.doc-btn i { margin-right:6px; }
 
-  /* Accordion */
-  .accordion-item { margin-bottom: 10px; }
-  .accordion-btn {
-    width: 100%;
-    background: #0b923f;
-    color: white;
-    padding: 14px 16px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .accordion-content {
-    display: none;
-    background: #f9f9f9;
-    padding: 10px 15px;
-    border-left: 2px solid #0b923f;
-    border-right: 2px solid #0b923f;
-    border-bottom: 2px solid #0b923f;
-    border-radius: 0 0 8px 8px;
-  }
-  .arrow { transition: 0.3s; }
-
-  /* NEW PDF CARD */
-  .doc-card {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 25px;
-      margin: 20px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  }
-  .doc-title {
-      color: #2e6b2e;
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 5px;
-  }
-  .doc-date {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 15px;
-  }
-  .doc-actions { display: flex; gap: 12px; }
-  .doc-btn {
-      background: #dff0ea;
-      padding: 10px 18px;
-      border-radius: 12px;
-      border: none;
-      text-decoration: none;
-      color: #093c27;
-      display: flex;
-      align-items: center;
-      font-weight: 600;
-  }
-  .doc-btn:hover { background: #cde5dc; }
-  .doc-btn i { margin-right: 6px; }
+/* VIDEO CARD */
+.video-card { background:#fff; padding:15px; margin:15px 0; border-radius:18px; box-shadow:0 2px 10px rgba(0,0,0,0.08); display:flex; gap:15px; align-items:center; }
 </style>
 </head>
-
-
-
-
 <body>
 
-<!-- HEADER UNTOUCHED -->
 <div class="header">
     <div class="header-left">
         <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Site Logo">
         <span class="header-title">👀3080 PDF</span>
     </div>
-
-    <div class="nav-icons">
-    <a href="pdf.html"><i class="material-icons-round">home</i></a>
-    <a href="course.html"><i class="material-icons-round">description</i></a>
-    <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
-    <a href="about.html"><i class="material-icons-round">info</i></a>
+   <div class="nav-icons">
+        <a href="pdf.html"><i class="material-icons-round">home</i></a>
+        <a href="course.html"><i class="material-icons-round">description</i></a>
+        <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
+        <a href="about.html"><i class="material-icons-round">info</i></a>
+    </div>
 </div>
-</div>
-
-
 
 
 <div class="container">
 
-  <div class="course-description">
-    <h2 id="courseTitle">Course Title</h2>
-    <p id="courseDesc">Loading...</p>
-  </div>
+    <!-- COURSE GRID (HTML version) -->
+   <h2>AVAILABLE COURSES</h2>
 
-  <div class="accordion">
-
-    <!-- PDF SECTION -->
-    <div class="accordion-item">
-      <button class="accordion-btn">
-        Course Documents (PDF) 
-        <span class="arrow">▼</span>
-      </button>
-      <div class="accordion-content" id="pdfList">
-        <p>Loading…</p>
-      </div>
+   <div class="course-grid">
+        <a href="course.html?code=CHM101" class="course-btn">CHM101</a>
+        <a href="course.html?code=BIO101" class="course-btn">BIO101</a>
+        <a href="course.html?code=COS101" class="course-btn">COS101</a>
+        <a href="course.html?code=PHY101" class="course-btn">PHY101</a>
+        <a href="course.html?code=GNS101/103" class="course-btn">GNS101/103</a>
+        <a href="course.html?code=MTH101/105" class="course-btn">MTH101/105</a>
+        <a href="course.html?code=MTH211" class="course-btn">MTH211</a>
+        <a href="course.html?code=BCH/BCM201" class="course-btn">BCH/BCM201</a>
+        <a href="course.html?code=MCB205" class="course-btn">MCB205</a>
+        <a href="course.html?code=MCB231" class="course-btn">MCB231</a>
+        <a href="course.html?code=STA209" class="course-btn">STA209</a>
+        <a href="course.html?code=MCB215" class="course-btn">MCB215</a>
+        <a href="course.html?code=ENT211" class="course-btn">ENT211</a> 
+        <a href="course.html?code=GST211" class="course-btn">GST211</a>
+        <a href="course.html?code=CHM211" class="course-btn">CHM211</a>
+        <a href="course.html?code=CHM207" class="course-btn">CHM207</a>
+        <a href="course.html?code=MCB221" class="course-btn">MCB221</a>
+        <a href="course.html?code=MCB207" class="course-btn">MCB207</a>
+        <a href="course.html?code=MCB209" class="course-btn">MCB209</a>
+        <a href="course.html?code=GNRL200LVL" class="course-btn">GNRL200LVL</a>
+        <a href="course.html?code=GNRL100LVL" class="course-btn">GNRL100LVL</a>
+</div>
+    <div class="notice-box">
+        <b>Note:</b> To download documents of a course, select your preferred course first.  
+        You will then see all documents available under that course.  
+        <br><br>
+        All downloads are saved inside a folder named <b>EYES OF 3080</b> in your phone’s Download folder.
     </div>
 
-    <!-- VIDEO SECTION (NEW) -->
-    <div class="accordion-item">
-      <button class="accordion-btn">
-        Course Videos
-        <span class="arrow">▼</span>
-      </button>
-      <div class="accordion-content" id="videoList">
-        <p>Loading…</p>
-      </div>
-    </div>
-
-  </div>
 </div>
 
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const SUPABASE_URL = "https://zvnovocoayqomdilidte.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2bm92b2NvYXlxb21kaWxpZHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwMDM2OTgsImV4cCI6MjA3OTU3OTY5OH0.PcpwASQ3RBRoQVIglxKz-yM3iuYMZMtyQJBh8QNHad8";
-  const BUCKET = "uploads";
-
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  const courseCode = new URLSearchParams(window.location.search).get("code");
-
-  loadCourseDescription();
-  loadPDFs();
-
-  async function loadCourseDescription() {
-      const { data } = await sb.from("courses").select("*").eq("code", courseCode).single();
-      if (data) {
-          document.getElementById("courseTitle").textContent = data.title;
-          document.getElementById("courseDesc").textContent = data.description;
-      }
-  }
-
-
-  
-  function createPDFCard(file) {
-      const fileURL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${courseCode}/pdfs/${file.name}`;
-      const topic = file.name.replace(/\.[^/.]+$/, "");
-      const date = new Date(file.created_at).toLocaleString();
-
-      const card = document.createElement("div");
-      card.className = "doc-card";
-
-      card.innerHTML = `
-          <h3 class="doc-title">${topic}</h3>
-          <p class="doc-date">${date}</p>
-
-          <div class="doc-actions">
-              <button class="doc-btn copy-btn" data-url="${fileURL}">
-                  <i class="material-icons-round">content_copy</i> Copy Link
-              </button>
-
-              <a href="${fileURL}" target="_blank" class="doc-btn">
-                  <i class="material-icons-round">download</i> Download
-              </a>
-          </div>
-      `;
-      return card;
-  }
-
-  async function loadPDFs() {
-      const { data } = await sb.storage.from(BUCKET).list(`${courseCode}/pdfs/`);
-      const list = document.getElementById("pdfList");
-      list.innerHTML = "";
-
-      if (!data || data.length === 0) {
-          list.innerHTML = "<p>No PDFs uploaded.</p>";
-          return;
-      }
-
-      data.forEach(file => {
-          list.appendChild(createPDFCard(file));
-      });
-
-      document.querySelectorAll(".copy-btn").forEach(btn => {
-          btn.addEventListener("click", () => {
-              navigator.clipboard.writeText(btn.dataset.url);
-              alert("Copied!");
-          });
-      });
-  }
-
-async function loadCourseVideos() {
-  try {
-    const { data } = await sb.storage
-      .from(BUCKET)
-      .list(`${courseCode}/videos`, { limit: 200 });
-
-    const videoList = document.getElementById("videoList");
-    videoList.innerHTML = "";
-
-    if (!data || data.length === 0) {
-      videoList.innerHTML = "<p>No videos uploaded yet.</p>";
-      return;
-    }
-
-    for (const file of data) {
-      const title = file.name.replace(/\.[^/.]+$/, "");
-      const date = new Date(file.created_at).toLocaleString();
-
-      // Get the TXT content (YouTube link)
-      const { data: fileData, error: downloadError } = await sb.storage
-        .from(BUCKET)
-        .download(`${courseCode}/videos/${file.name}`);
-
-      if (downloadError) continue;
-
-      const text = await fileData.text();
-      let videoId = null;
-
-      try {
-        const urlObj = new URL(text.trim());
-        videoId = urlObj.searchParams.get("v");
-      } catch {}
-
-      // If videoId is invalid, skip this file
-      if (!videoId) continue;
-
-      // Generate YouTube thumbnail
-      const thumbnailURL = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-      // Create Video Card
-      const card = document.createElement("div");
-      card.className = "video-card";
-      card.style.cssText = `
-        background: #fff;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 18px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        display: flex;
-        gap: 15px;
-        align-items: center;
-      `;
-
-      card.innerHTML = `
-        <img src="${thumbnailURL}" 
-             style="width:120px;height:70px;object-fit:cover;border-radius:12px;" />
-
-        <div style="flex:1;">
-          <h3 style="margin:0;color:#236d2c;font-size:18px;font-weight:700;">
-            ${title}
-          </h3>
-
-          <p style="margin:4px 0;color:#666;font-size:13px;">
-            ${date}
-          </p>
+    <!-- COURSE DETAILS -->
+    <div id="courseDetails" style="display:none;">
+        <div class="course-description">
+            <h2 id="courseTitle">Course Title</h2>
+            <p id="courseDesc">Loading...</p>
         </div>
 
-        <a href="videos.html?id=${encodeURIComponent(file.name)}&code=${courseCode}" 
-           style="
-             background:#1bb44a;
-             padding:10px 18px;
-             color:white;
-             border-radius:10px;
-             text-decoration:none;
-             font-weight:700;
-           ">
-           Play
-        </a>
-      `;
+        <div class="accordion">
+            <div class="accordion-item">
+                <button class="accordion-btn">Course Documents (PDF)<span class="arrow">▼</span></button>
+                <div class="accordion-content" id="pdfList"><p>Loading…</p></div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-btn">Course Videos<span class="arrow">▼</span></button>
+                <div class="accordion-content" id="videoList"><p>Loading…</p></div>
+            </div>
+        </div>
+    </div>
 
-      videoList.appendChild(card);
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const SUPABASE_URL = "https://zvnovocoayqomdilidte.supabase.co";
+    const SUPABASE_KEY = "YOUR_SUPABASE_KEY_HERE";
+    const BUCKET = "uploads";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Add click listeners to HTML course buttons
+    document.querySelectorAll(".course-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>showCourseDetails(btn.dataset.code));
+    });
+
+    async function showCourseDetails(courseCode){
+        document.getElementById("courseGrid").style.display="none";
+        document.getElementById("courseDetails").style.display="block";
+
+        // Course description
+        const { data } = await sb.from("courses").select("*").eq("code",courseCode).single();
+        if(data){
+            document.getElementById("courseTitle").textContent = data.title || courseCode;
+            document.getElementById("courseDesc").textContent = data.description || "No description available.";
+        }
+
+        // PDFs
+        const { data: pdfs } = await sb.storage.from(BUCKET).list(`${courseCode}/pdfs/`);
+        const pdfList = document.getElementById("pdfList");
+        pdfList.innerHTML="";
+        if(!pdfs || pdfs.length===0){
+            pdfList.innerHTML="<p>No PDFs uploaded.</p>";
+        } else {
+            pdfs.forEach(file=>{
+                const fileURL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${courseCode}/pdfs/${file.name}`;
+                const card = document.createElement("div");
+                card.className="doc-card";
+                card.innerHTML=`
+                    <h3 class="doc-title">${file.name.replace(/\.[^/.]+$/,"")}</h3>
+                    <p class="doc-date">${new Date(file.created_at).toLocaleString()}</p>
+                    <div class="doc-actions">
+                        <button class="doc-btn copy-btn" data-url="${fileURL}">
+                            <i class="material-icons-round">content_copy</i> Copy Link
+                        </button>
+                        <a href="${fileURL}" target="_blank" class="doc-btn">
+                            <i class="material-icons-round">download</i> Download
+                        </a>
+                    </div>
+                `;
+                pdfList.appendChild(card);
+            });
+        }
+        document.querySelectorAll(".copy-btn").forEach(btn=>{btn.addEventListener("click",()=>{navigator.clipboard.writeText(btn.dataset.url); alert("Copied!");});});
+
+        // Videos
+        const { data: vids } = await sb.storage.from(BUCKET).list(`${courseCode}/videos/`, {limit:200});
+        const videoList = document.getElementById("videoList");
+        videoList.innerHTML="";
+        if(!vids || vids.length===0){ videoList.innerHTML="<p>No videos uploaded yet.</p>"; }
+        else {
+            for(const file of vids){
+                const { data:fileData, error } = await sb.storage.from(BUCKET).download(`${courseCode}/videos/${file.name}`);
+                if(error) continue;
+                const text = await fileData.text();
+                let videoId=null;
+                try{ videoId=new URL(text.trim()).searchParams.get("v"); } catch{}
+                if(!videoId) continue;
+                const thumbnailURL=`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                const card = document.createElement("div");
+                card.className="video-card";
+                card.innerHTML=`
+                    <img src="${thumbnailURL}" style="width:120px;height:70px;object-fit:cover;border-radius:12px;" />
+                    <div style="flex:1;">
+                        <h3 style="margin:0;color:#236d2c;font-size:18px;font-weight:700;">${file.name.replace(/\.[^/.]+$/,"")}</h3>
+                        <p style="margin:4px 0;color:#666;font-size:13px;">${new Date(file.created_at).toLocaleString()}</p>
+                    </div>
+                    <a href="videos.html?id=${encodeURIComponent(file.name)}&code=${courseCode}" style="background:#1bb44a;padding:10px 18px;color:white;border-radius:10px;text-decoration:none;font-weight:700;">Play</a>
+                `;
+                videoList.appendChild(card);
+            }
+        }
+
+        // Accordion toggle
+        document.querySelectorAll(".accordion-btn").forEach(btn=>{
+            btn.addEventListener("click",()=>{
+                const box=btn.nextElementSibling;
+                const arrow=btn.querySelector(".arrow");
+                box.style.display=box.style.display==="block"?"none":"block";
+                arrow.style.transform=box.style.display==="block"?"rotate(180deg)":"rotate(0deg)";
+            });
+        });
     }
-
-  } catch (err) {
-    document.getElementById("videoList").innerHTML = "<p>Error loading videos.</p>";
-    console.error(err);
-  }
-}
-
-// CALL FUNCTION
-loadCourseVideos();
-
-  /* ACCORDION */
-  document.querySelectorAll(".accordion-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-          const box = btn.nextElementSibling;
-          const arrow = btn.querySelector(".arrow");
-          box.style.display = box.style.display === "block" ? "none" : "block";
-          arrow.style.transform = box.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
-      });
-  });
 
 });
 </script>
-
 </body>
 </html>
