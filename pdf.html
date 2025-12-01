@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Course Documents</title>
+<title>Latest Updates</title>
 
 <!-- GOOGLE ICONS -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
     body {
@@ -63,8 +65,6 @@
         padding-bottom: 3px;
     }
 
-    
-
     .nav-icons i:hover {
         transform: scale(1.1);
     }
@@ -79,58 +79,89 @@
     h2 {
         font-size: 26px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         color: #1d2c3b;
     }
 
-    h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-        color: #17673a;
-        border-bottom: 3px solid #1db954;
-        display: inline-block;
-        padding-bottom: 3px;
-    }
+    /* UPDATE CARD */
+.update-card {
+    background: #ffffff;
+    padding: 20px 22px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    /* COURSE BUTTON GRID */
-    .course-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 12px;
-        margin-top: 15px;
-    }
+.update-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}
 
-    .course-btn {
-        background: #23a34c;
-        color: white;
-        padding: 12px;
-        border-radius: 8px;
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-        text-decoration: none;
-        display: inline-block;
-    }
+/* TITLE */
+.update-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #17673a;
+    margin-bottom: 8px;
+}
 
-    .course-btn:hover {
-        background: #178a38;
-    }
+/* DATE */
+.update-date {
+    font-size: 13px;
+    color: #78909c;
+    margin-bottom: 12px;
+    display: block;
+}
 
-    /* NOTICE BOX */
-    .notice-box {
-        margin-top: 25px;
-        background: white;
-        padding: 18px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        color: #555;
-        font-size: 15px;
-        line-height: 1.5;
-    }
+/* BODY TEXT */
+.update-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+    max-height: 80px; /* collapsed height */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.3s ease;
+}
+
+/* Expanded body */
+.update-body.expanded {
+    max-height: 2000px; /* expand fully */
+}
+
+/* Fade effect for collapsed text */
+.update-body::after {
+    content: "";
+    display: block;
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to top, #fff, rgba(255,255,255,0));
+    pointer-events: none;
+}
+
+.update-body.expanded::after {
+    display: none; /* remove fade when expanded */
+}
+
+/* READ MORE TOGGLE */
+.read-more-toggle {
+    margin-top: 10px;
+    display: inline-block;
+    color: #1db954;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.read-more-toggle:hover {
+    color: #0a8f3f;
+}
 </style>
-
 </head>
 <body>
 
@@ -141,54 +172,97 @@
         <span class="header-title">👀3080 PDF</span>
     </div>
 
-     <div class="nav-icons">
-    <a href="pdf.html"><i class="material-icons-round">home</i></a>
-    <a href="course.html"><i class="material-icons-round">description</i></a>
-    <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
-    <a href="about.html"><i class="material-icons-round">info</i></a>
-</div>
+    <div class="nav-icons">
+        <a href="home.html"><i class="material-icons-round">home</i></a>
+        <a href="course.html"><i class="material-icons-round">description</i></a>
+        <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
+        <a href="about.html"><i class="material-icons-round">info</i></a>
+    </div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="container">
+    <h2>Latest Updates</h2>
 
-    <h2>Browse Course Documents</h2>
-
-    <h3>Available Courses</h3>
-
-   <div class="course-grid">
-        <a href="course.html?code=CHM101" class="course-btn">CHM101</a>
-        <a href="course.html?code=BIO101" class="course-btn">BIO101</a>
-        <a href="course.html?code=COS101" class="course-btn">COS101</a>
-        <a href="course.html?code=PHY101" class="course-btn">PHY101</a>
-        <a href="course.html?code=GNS101/103" class="course-btn">GNS101/103</a>
-        <a href="course.html?code=MTH101/105" class="course-btn">MTH101/105</a>
-        <a href="course.html?code=MTH211" class="course-btn">MTH211</a>
-        <a href="course.html?code=BCH/BCM201" class="course-btn">BCH/BCM201</a>
-        <a href="course.html?code=MCB205" class="course-btn">MCB205</a>
-        <a href="course.html?code=MCB231" class="course-btn">MCB231</a>
-        <a href="course.html?code=STA209" class="course-btn">STA209</a>
-        <a href="course.html?code=MCB215" class="course-btn">MCB215</a>
-        <a href="course.html?code=ENT211" class="course-btn">ENT211</a> 
-        <a href="course.html?code=GST211" class="course-btn">GST211</a>
-        <a href="course.html?code=CHM211" class="course-btn">CHM211</a>
-        <a href="course.html?code=CHM207" class="course-btn">CHM207</a>
-        <a href="course.html?code=MCB221" class="course-btn">MCB221</a>
-        <a href="course.html?code=MCB207" class="course-btn">MCB207</a>
-        <a href="course.html?code=MCB209" class="course-btn">MCB209</a>
-        <a href="course.html?code=GNRL200LVL" class="course-btn">GNRL200LVL</a>
-        <a href="course.html?code=GNRL100LVL" class="course-btn">GNRL100LVL</a>
-</div>
-    <div class="notice-box">
-        <b>Note:</b> To download documents of a course, select your preferred course first.  
-        You will then see all documents available under that course.  
-        <br><br>
-        All downloads are saved inside a folder named <b>EYES OF 3080</b> in your phone’s Download folder.
+    <div id="updates-area">
+        <p>Loading updates...</p>
     </div>
-
 </div>
 
+<script>
+// 🔥 SUPABASE CONFIG
+const SUPABASE_URL = "https://zvnovocoayqomdilidte.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2bm92b2NvYXlxb21kaWxpZHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwMDM2OTgsImV4cCI6MjA3OTU3OTY5OH0.PcpwASQ3RBRoQVIglxKz-yM3iuYMZMtyQJBh8QNHad8";
 
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const updatesArea = document.getElementById("updates-area");
+
+// ⭐ LOAD UPDATES WITH READ MORE / SHOW LESS
+async function loadUpdates() {
+    const { data, error } = await sb
+        .from("updates")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        updatesArea.innerHTML = "<p>Failed to load updates.</p>";
+        return;
+    }
+
+    if (!data.length) {
+        updatesArea.innerHTML = "<p>No updates yet.</p>";
+        return;
+    }
+
+    updatesArea.innerHTML = "";
+
+    data.forEach(update => {
+        const fullText = update.body;
+        const shortText = fullText.substring(0, 200);
+
+        const id = `update-${update.id}`;
+
+        const card = `
+            <div class="update-card">
+                <div class="update-title">${update.title}</div>
+                <div class="update-date">${new Date(update.created_at).toDateString()}</div>
+
+                <div id="${id}" class="update-body">
+                    ${shortText}${fullText.length > 200 ? "..." : ""}
+                </div>
+
+                ${fullText.length > 200 ? 
+                    `<span class="read-more-toggle" onclick="toggleRead('${id}', \`${fullText.replace(/`/g, "\\`")}\`, \`${shortText}\`)">
+                        Read More →
+                    </span>` 
+                : ""}
+            </div>
+        `;
+
+        updatesArea.innerHTML += card;
+    });
+}
+
+function toggleRead(id, fullText, shortText) {
+    const body = document.getElementById(id);
+    const toggle = body.nextElementSibling;
+
+    if (body.classList.contains("expanded")) {
+        // collapse
+        body.classList.remove("expanded");
+        body.innerHTML = shortText + "...";
+        toggle.innerHTML = "Read More →";
+    } else {
+        // expand
+        body.classList.add("expanded");
+        body.innerHTML = fullText;
+        toggle.innerHTML = "Show Less ←";
+    }
+}
+
+loadUpdates();
+</script>
 
 </body>
 </html>
