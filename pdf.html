@@ -83,7 +83,7 @@
         color: #1d2c3b;
     }
 
-    /* UPDATE CARD */
+/* UPDATE CARD */
 .update-card {
     background: #ffffff;
     padding: 20px 22px;
@@ -127,11 +127,11 @@
 
 /* Expanded body */
 .update-body.expanded {
-    max-height: 2000px; /* expand fully */
+    max-height: 2000px;
 }
 
 /* Fade effect for collapsed text */
-.update-body::after {
+.update-body.fade::after {
     content: "";
     display: block;
     height: 40px;
@@ -143,8 +143,9 @@
     pointer-events: none;
 }
 
+/* Remove fade when expanded */
 .update-body.expanded::after {
-    display: none; /* remove fade when expanded */
+    display: none;
 }
 
 /* READ MORE TOGGLE */
