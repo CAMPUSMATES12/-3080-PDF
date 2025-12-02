@@ -228,6 +228,16 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCourseDescription();
   loadPDFs();
 
+const params = new URLSearchParams(window.location.search);
+const courseCode = params.get("code");
+
+if (courseCode) {
+    console.log("Course from URL:", courseCode);
+    courseGrid.style.display = "none";
+    courseDetails.style.display = "block";
+    showCourseDetails(courseCode);
+}
+
   async function loadCourseDescription() {
       const { data } = await sb.from("courses").select("*").eq("code", courseCode).single();
       if (data) {
@@ -262,6 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       return card;
   }
+
 
   async function loadPDFs() {
       const { data } = await sb.storage.from(BUCKET).list(`${courseCode}/pdfs/`);
