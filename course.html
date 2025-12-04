@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Browse Course Documents</title>
-
 <!-- GOOGLE ICONS -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
 
 <style>
     body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f2f7fa;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #eef3f8;
     }
 
     /* HEADER */
     .header {
-        background: linear-gradient(to right, #0a8f3f, #21b04c);
-        padding: 15px;
+        background: linear-gradient(to right, #003c94, #005fe4);
+        padding: 16px 22px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -26,28 +25,30 @@
         position: sticky;
         top: 0;
         z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .header-left {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
     }
 
     .header-left img {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         object-fit: contain;
     }
 
     .header-title {
-        font-size: 22px;
-        font-weight: bold;
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
     }
 
     .nav-icons {
         display: flex;
-        gap: 25px;
+        gap: 22px;
         margin-right: 10px;
     }
 
@@ -57,87 +58,89 @@
     }
 
     .nav-icons i {
-        font-size: 28px;
+        font-size: 27px;
         cursor: pointer;
-        transition: 0.2s;
-        padding-bottom: 3px;
+        transition: .25s ease;
     }
-
-    
 
     .nav-icons i:hover {
-        transform: scale(1.1);
+        transform: scale(1.15) translateY(-2px);
+        opacity: 0.9;
     }
 
-    /* MAIN SECTION */
+    /* MAIN WRAPPER */
     .container {
-        padding: 20px;
-        max-width: 900px;
-        margin: auto;
+        padding: 35px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
     }
 
+    /* SECTION TITLES */
     h2 {
-        font-size: 26px;
+        font-size: 30px;
         font-weight: 700;
-        margin-bottom: 10px;
-        color: #1d2c3b;
+        margin-bottom: 25px;
+        color: #1b2c40;
+        text-align: center;
+        letter-spacing: 0.3px;
     }
 
     h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-        color: #17673a;
-        border-bottom: 3px solid #1db954;
+        font-size: 22px;
+        margin-bottom: 18px;
+        color: #003c94;
+        padding-bottom: 6px;
+        border-bottom: 3px solid #0056d2;
         display: inline-block;
-        padding-bottom: 3px;
+        font-weight: 700;
     }
 
-    /* COURSE BUTTON GRID */
+    /* GRID LAYOUT */
     .course-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 12px;
-        margin-top: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 18px;
+        margin-top: 25px;
     }
 
     .course-btn {
-        background: #23a34c;
+        background: linear-gradient(135deg, #0056d2, #0085ff);
         color: white;
-        padding: 12px;
-        border-radius: 8px;
+        padding: 18px 12px;
+        border-radius: 14px;
         text-align: center;
         font-size: 16px;
-        font-weight: bold;
+        font-weight: 600;
         cursor: pointer;
-        transition: 0.2s;
+        transition: .3s ease;
         text-decoration: none;
-        display: inline-block;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     }
 
     .course-btn:hover {
-        background: #178a38;
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, #003c94, #0056d2);
     }
 
-    /* NOTICE BOX */
+    /* NOTICE SECTION */
     .notice-box {
-        margin-top: 25px;
-        background: white;
-        padding: 18px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        color: #555;
-        font-size: 15px;
-        line-height: 1.5;
+        margin-top: 40px;
+        background: #ffffff;
+        padding: 25px 28px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        color: #333;
+        font-size: 15.5px;
+        line-height: 1.7;
+        border-left: 6px solid #0056d2;
+        transition: .25s ease;
     }
-    
-       #courseDetails {
-    display:none !important;
-    height:0 !important;
-    overflow:hidden !important;
-    pointer-events:none !important;
-}
-</style>
 
+    .notice-box:hover {
+        background: #f4f7ff;
+    }
+</style>
 </head>
 <body>
 
@@ -235,16 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCourseDescription();
   loadPDFs();
 
-const params = new URLSearchParams(window.location.search);
-const courseCode = params.get("code");
-
-if (courseCode) {
-    console.log("Course from URL:", courseCode);
-    courseGrid.style.display = "none";
-    courseDetails.style.display = "block";
-    showCourseDetails(courseCode);
-}
-
   async function loadCourseDescription() {
       const { data } = await sb.from("courses").select("*").eq("code", courseCode).single();
       if (data) {
@@ -279,7 +272,6 @@ if (courseCode) {
       `;
       return card;
   }
-
 
   async function loadPDFs() {
       const { data } = await sb.storage.from(BUCKET).list(`${courseCode}/pdfs/`);
