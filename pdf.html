@@ -14,12 +14,12 @@
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: #f2f7fa;
+        background: #f2f6fb;
     }
 
     /* HEADER */
     .header {
-        background: linear-gradient(to right, #0a8f3f, #21b04c);
+        background: linear-gradient(to right, #003c94, #0056d2);
         padding: 15px;
         display: flex;
         align-items: center;
@@ -28,6 +28,7 @@
         position: sticky;
         top: 0;
         z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .header-left {
@@ -83,85 +84,91 @@
         color: #1d2c3b;
     }
 
-/* UPDATE CARD */
-.update-card {
-    background: #ffffff;
-    padding: 20px 22px;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    /* UPDATE CARD */
+    .update-card {
+        background: white;
+        padding: 20px 22px;
+        border-radius: 14px;
+        margin-bottom: 22px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        transition: 0.25s ease;
+        border-left: 5px solid #0056d2;
+    }
 
-.update-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
+    .update-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
 
-/* TITLE */
-.update-title {
-    font-size: 21px;
-    font-weight: 700;
-    color: #17673a;
-    margin-bottom: 8px;
-}
+    /* TITLE */
+    .update-title {
+        font-size: 21px;
+        font-weight: 700;
+        color: #003c94;
+        margin-bottom: 10px;
+    }
 
-/* DATE */
-.update-date {
-    font-size: 13px;
-    color: #78909c;
-    margin-bottom: 12px;
-    display: block;
-}
+    /* DATE BADGE */
+    .update-date {
+        display: inline-block;
+        background: #e8f0ff;
+        padding: 5px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #003c94;
+        border-radius: 30px;
+        margin-bottom: 14px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
 
-/* BODY TEXT */
-.update-body {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #444;
-    max-height: 80px; /* collapsed height */
-    overflow: hidden;
-    position: relative;
-    transition: max-height 0.3s ease;
-}
+    /* BODY */
+    .update-body {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #444;
+        max-height: 85px;
+        overflow: hidden;
+        position: relative;
+        transition: max-height 0.3s ease;
+    }
 
-/* Expanded body */
-.update-body.expanded {
-    max-height: 2000px;
-}
+    /* FADE EFFECT */
+    .update-body.fade::after {
+        content: "";
+        display: block;
+        height: 45px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(to top, white, rgba(255,255,255,0));
+        pointer-events: none;
+    }
 
-/* Fade effect for collapsed text */
-.update-body.fade::after {
-    content: "";
-    display: block;
-    height: 40px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(to top, #fff, rgba(255,255,255,0));
-    pointer-events: none;
-}
+    /* EXPANDED BODY */
+    .update-body.expanded {
+        max-height: 2000px;
+    }
 
-/* Remove fade when expanded */
-.update-body.expanded::after {
-    display: none;
-}
+    .update-body.expanded::after {
+        display: none;
+    }
 
-/* READ MORE TOGGLE */
-.read-more-toggle {
-    margin-top: 10px;
-    display: inline-block;
-    color: #1db954;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
+    /* READ MORE BUTTON */
+    .read-more-toggle {
+        margin-top: 12px;
+        display: inline-block;
+        color: #0056d2;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-.read-more-toggle:hover {
-    color: #0a8f3f;
-}
+    .read-more-toggle:hover {
+        text-decoration: underline;
+        opacity: 0.85;
+    }
 </style>
 </head>
 <body>
@@ -249,19 +256,26 @@ function toggleRead(id, fullText, shortText) {
     const body = document.getElementById(id);
     const toggle = body.nextElementSibling;
 
+    // Check if fullText is longer than shortText
+    if (fullText.length <= shortText.length) {
+        // Content is short, hide toggle
+        if (toggle) toggle.style.display = "none";
+        body.innerHTML = fullText; // just show full text
+        return;
+    }
+
     if (body.classList.contains("expanded")) {
-        // collapse
+        // Collapse
         body.classList.remove("expanded");
         body.innerHTML = shortText + "...";
-        toggle.innerHTML = "Read More →";
+        if (toggle) toggle.innerHTML = "Read More →";
     } else {
-        // expand
+        // Expand
         body.classList.add("expanded");
         body.innerHTML = fullText;
-        toggle.innerHTML = "Show Less ←";
+        if (toggle) toggle.innerHTML = "Show Less ←";
     }
 }
-
 loadUpdates();
 </script>
 
