@@ -8,38 +8,83 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<!-- PWA MANIFEST -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#003c94">
+
 <style>
-body { 
-    margin:0; 
-    font-family: Arial; 
-    background:#f5f7fc; 
-    color:#333; 
+/* ===========================
+   BODY & BASE
+=========================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7ff;
+    color: #333;
 }
 
-/* HEADER */
+/* ===========================
+   HEADER
+=========================== */
 .header {
-    background: linear-gradient(to right, #003b8e, #005ce6);
-    padding: 15px;
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #003c94, #0056d2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     color: white;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
-.header-left { display: flex; align-items: center; gap: 10px; }
-.header-left img { width: 40px; height: 40px; object-fit: contain; }
-.header-title { font-size: 22px; font-weight: bold; }
-.nav-icons { display: flex; gap: 25px; margin-right: 10px; }
-.nav-icons a { color: white; text-decoration: none; }
-.nav-icons i { font-size: 28px; cursor: pointer; }
 
-/* CONTAINER */
-.container { max-width:1200px; margin:30px auto; padding:0 15px; }
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1; /* Takes full width */
+}
 
-/* SEARCH */
-.search-bar { display:flex; gap:10px; margin-bottom:20px; }
+.header-left img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px; /* softly rounded */
+    object-fit: cover;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    flex-shrink: 0; /* Logo stays fixed size */
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1; /* Title takes all remaining space */
+}
+
+/* ===========================
+   PAGE CONTAINER
+=========================== */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 15px;
+    padding-bottom: 120px; /* Extra bottom padding for fixed navbar */
+}
+
+/* ===========================
+   SEARCH BAR
+=========================== */
+.search-bar {
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
 .search-bar input { 
     flex:1; 
     padding:10px; 
@@ -58,9 +103,13 @@ body {
     font-weight:600;
     transition:0.2s;
 }
-.search-bar button:hover { background:#003b8e; }
+.search-bar button:hover { 
+    background:#003b8e; 
+}
 
-/* PLAYER */
+/* ===========================
+   PLAYER BOX
+=========================== */
 #playerBox { 
     background: #ffffff; 
     padding: 20px; 
@@ -100,7 +149,9 @@ body {
     background:#003b8e;
 }
 
-/* VIDEO GRID */
+/* ===========================
+   VIDEO GRID
+=========================== */
 .video-grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
@@ -156,6 +207,45 @@ body {
     transform: scale(1.03);
     background:#003b8e;
 }
+
+/* ===========================
+   NEW BOTTOM NAVBAR
+=========================== */
+/* NEW NAVBAR */
+    .nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 94%;
+        background: rgba(255,255,255,0.35);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        z-index: 999;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        text-align: center;
+        color: #003c94;
+        font-size: 12px;
+        font-weight: 600;
+        transition: .25s;
+    }
+
+    .nav-bar i {
+        font-size: 26px;
+        margin-bottom: 4px;
+    }
+
+    .nav-bar a:hover {
+        transform: translateY(-3px);
+    }
+
 </style>
 </head>
 
@@ -167,14 +257,8 @@ body {
     <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo">
     <span class="header-title">3080 PDF</span>
   </div>
-
-  <div class="nav-icons">
-    <a href="pdf.html"><i class="material-icons-round">home</i></a>
-    <a href="course.html"><i class="material-icons-round">description</i></a>
-    <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
-    <a href="about.html"><i class="material-icons-round">info</i></a>
-  </div>
 </div>
+
 
 <div class="container">
 
@@ -196,6 +280,14 @@ body {
   <h2>Videos</h2>
   <div id="videoList" class="video-grid"></div>
 
+</div>
+
+ <!-- NAV BAR -->
+<div class="nav-bar">
+    <a href="pdf.html"><i class="material-icons-round">home</i><br>Home</a>
+    <a href="course.html"><i class="material-icons-round">description</i><br>PDFs</a>
+    <a href="videos.html"><i class="material-icons-round">play_circle</i><br>Videos</a>
+    <a href="about.html"><i class="material-icons-round">info</i><br>About</a>
 </div>
 
 <script>
