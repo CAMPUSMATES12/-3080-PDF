@@ -1,145 +1,317 @@
-<!DOCTYPE html>
+<!DOCTYPE <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Course Documents</title>
-<!-- GOOGLE ICONS -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+<title>EYES OF 3080 – Courses</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- PWA MANIFEST -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#003c94">
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: #eef3f8;
-    }
+/* BODY */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #dbe8ff, #f0f4ff);
+    min-height: 100vh;
+}
 
-    /* HEADER */
-    .header {
-        background: linear-gradient(to right, #003c94, #005fe4);
-        padding: 16px 22px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: white;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    }
+/* HEADER */
+.header {
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #003c94, #0056d2);
+    display: flex;
+    align-items: center;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
 
-    .header-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
 
-    .header-left img {
-        width: 45px;
-        height: 45px;
-        object-fit: contain;
-    }
+.header-left img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    flex-shrink: 0;
+}
 
-    .header-title {
-        font-size: 23px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-    }
+.header-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
 
-    .nav-icons {
-        display: flex;
-        gap: 22px;
-        margin-right: 10px;
-    }
+/* MAIN CONTAINER */
+.container {
+    padding: 20px;
+    margin-bottom: 100px;
+}
 
-    .nav-icons a {
-        color: white;
-        text-decoration: none;
-    }
+/* TITLES */
+h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #002f6c;
+}
 
-    .nav-icons i {
-        font-size: 27px;
-        cursor: pointer;
-        transition: .25s ease;
-    }
+h3 {
+    font-size: 17px;
+    margin-bottom: 15px;
+    color: #003c94;
+}
 
-    .nav-icons i:hover {
-        transform: scale(1.15) translateY(-2px);
-        opacity: 0.9;
-    }
+/* COURSE GRID */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 25px;
+}
 
-    /* MAIN WRAPPER */
-    .container {
-        padding: 35px 20px;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
+.course-card {
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(18px);
+    border-radius: 22px;
+    padding: 28px 15px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+    transition: .35s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: #003c94;
+    font-weight: 800;
+    font-size: 16px;
+}
 
-    /* SECTION TITLES */
-    h2 {
-        font-size: 30px;
-        font-weight: 700;
-        margin-bottom: 25px;
-        color: #1b2c40;
-        text-align: center;
-        letter-spacing: 0.3px;
-    }
+.course-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.18);
+    background: rgba(255,255,255,0.75);
+}
 
-    h3 {
-        font-size: 22px;
-        margin-bottom: 18px;
-        color: #003c94;
-        padding-bottom: 6px;
-        border-bottom: 3px solid #0056d2;
-        display: inline-block;
-        font-weight: 700;
-    }
+.course-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
 
-    /* GRID LAYOUT */
-    .course-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 18px;
-        margin-top: 25px;
-    }
+/* NOTICE BOX */
+.notice-box {
+    margin-top: 40px;
+    padding: 22px;
+    background: white;
+    border-radius: 16px;
+    border-left: 6px solid #0056d2;
+    box-shadow: 0 8px 25px rgba(0,0,105,0.08);
+    line-height: 1.6;
+}
 
-    .course-btn {
-        background: linear-gradient(135deg, #0056d2, #0085ff);
-        color: white;
-        padding: 18px 12px;
-        border-radius: 14px;
-        text-align: center;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: .3s ease;
-        text-decoration: none;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-    }
+/* COURSE DETAILS */
+#courseDetails {
+    display: none;
+    margin-top: 20px;
+    background: white;
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: fadeIn .35s ease;
+}
 
-    .course-btn:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(135deg, #003c94, #0056d2);
-    }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    /* NOTICE SECTION */
-    .notice-box {
-        margin-top: 40px;
-        background: #ffffff;
-        padding: 25px 28px;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-        color: #333;
-        font-size: 15.5px;
-        line-height: 1.7;
-        border-left: 6px solid #0056d2;
-        transition: .25s ease;
-    }
+/* ACCORDION */
+.accordion-btn {
+    width: 100%;
+    padding: 18px;
+    background: #eef3ff;
+    border: none;
+    text-align: left;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #002f6c;
+    cursor: pointer;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: .3s;
+}
 
-    .notice-box:hover {
-        background: #f4f7ff;
-    }
+.accordion-btn:hover {
+    background: #dce8ff;
+}
+
+.accordion-content {
+    padding: 15px;
+    display: none;
+    animation: fadeIn .35s;
+}
+/* PDF CARDS */
+.doc-card {
+    display: flex;
+    flex-direction: column; /* stack info and buttons */
+    gap: 8px;
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* Top row: icon + info */
+.doc-card .top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.doc-card img.pdf-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.doc-card .doc-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.doc-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #003c94;
+    word-break: break-word;
+}
+
+.doc-date {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Buttons row */
+.doc-actions {
+    display: flex; /* buttons stay side by side */
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.doc-actions button {
+    flex: 1;
+    padding: 8px 0;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.doc-actions button:hover {
+    background: #0056b3;
+}
+
+.doc-actions a {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    background: #1bb44a;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.doc-actions a:hover {
+    background: #14943b;
+}
+
+/* VIDEO CARDS - keep original play button styling */
+.video-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.play-btn {
+    background: #1bb44a;
+    color: white;
+    display: inline-block;
+    padding: 8px 14px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* NAV BAR */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 94%;
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    text-align: center;
+    color: #003c94;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.nav-bar i {
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.nav-bar a:hover {
+    transform: translateY(-3px);
+}
+
 </style>
 </head>
 <body>
@@ -147,82 +319,81 @@
 <!-- HEADER -->
 <div class="header">
     <div class="header-left">
-        <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Site Logo">
-        <span class="header-title">👀3080 PDF</span>
+        <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
+        <span class="header-title">👀 3080 PDF</span>
     </div>
-
-     <div class="nav-icons">
-    <a href="pdf.html"><i class="material-icons-round">home</i></a>
-    <a href="course.html"><i class="material-icons-round">description</i></a>
-    <a href="videos.html"><i class="material-icons-round">play_circle</i></a>
-    <a href="about.html"><i class="material-icons-round">info</i></a>
-</div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- COURSES -->
 <div class="container">
-
     <h2>Browse Course Documents</h2>
+    <h3>Select a Course</h3>
 
-    <h3>Available Courses</h3>
+    <div class="course-grid" id="courseGrid">
+        <a data-code="CHM101" class="course-card"><div class="course-icon">📘</div>CHM101</a>
+        <a data-code="BIO101" class="course-card"><div class="course-icon">🧬</div>BIO101</a>
+        <a data-code="COS101" class="course-card"><div class="course-icon">💻</div>COS101</a>
+        <a data-code="PHY101" class="course-card"><div class="course-icon">⚛️</div>PHY101</a>
+                <a data-code="MCB207" class="course-card"><div class="course-icon">🦠</div>MCB207</a>
 
-   <div class="course-grid">
-        <a href="course.html?code=CHM101" class="course-btn">CHM101</a>
-        <a href="course.html?code=BIO101" class="course-btn">BIO101</a>
-        <a href="course.html?code=COS101" class="course-btn">COS101</a>
-        <a href="course.html?code=PHY101" class="course-btn">PHY101</a>
-        <a href="course.html?code=GNS101/103" class="course-btn">GNS101/103</a>
-        <a href="course.html?code=MTH101/105" class="course-btn">MTH101/105</a>
-        <a href="course.html?code=MTH211" class="course-btn">MTH211</a>
-        <a href="course.html?code=BCH/BCM201" class="course-btn">BCH/BCM201</a>
-        <a href="course.html?code=MCB205" class="course-btn">MCB205</a>
-        <a href="course.html?code=MCB231" class="course-btn">MCB231</a>
-        <a href="course.html?code=STA209" class="course-btn">STA209</a>
-        <a href="course.html?code=MCB215" class="course-btn">MCB215</a>
-        <a href="course.html?code=ENT211" class="course-btn">ENT211</a> 
-        <a href="course.html?code=GST211" class="course-btn">GST211</a>
-        <a href="course.html?code=CHM211" class="course-btn">CHM211</a>
-        <a href="course.html?code=CHM207" class="course-btn">CHM207</a>
-        <a href="course.html?code=MCB221" class="course-btn">MCB221</a>
-        <a href="course.html?code=MCB207" class="course-btn">MCB207</a>
-        <a href="course.html?code=MCB209" class="course-btn">MCB209</a>
-        <a href="course.html?code=GNRL200LVL" class="course-btn">GNRL200LVL</a>
-        <a href="course.html?code=GNRL100LVL" class="course-btn">GNRL100LVL</a>
+        <a data-code="MCB209" class="course-card"><div class="course-icon">🧬</div>MCB209</a>
+
+        <a data-code="GNS101/103" class="course-card"><div class="course-icon">📚</div>GNS101/103</a>
+
+  <a data-code="MCB221" class="course-card"><div class="course-icon">🧫</div>MCB221</a>
+
+  <a data-code="BCH/BCM201" class="course-card"><div class="course-icon">🧪</div>BCH/BCM201</a>
+
+  <a data-code="STA209" class="course-card"><div class="course-icon">📊</div>STA209</a>
+
+  <a data-code="CHM211" class="course-card"><div class="course-icon">🧯</div>CHM211</a>
+
+  <a data-code="MTH101/105" class="course-card"><div class="course-icon">🧮</div>MTH101/105</a>
+
+  <a data-code="MCB215" class="course-card"><div class="course-icon">🔬</div>MCB215</a>
+
+  <a data-code="GNRL200LVL" class="course-card"><div class="course-icon">📘</div>GNRL200LVL</a>
+
+  <a data-code="GNRL100LVL" class="course-card"><div class="course-icon">📘</div>GNRL100LVL</a>
+
+  <a data-code="MTH211" class="course-card"><div class="course-icon">📐</div>MTH211</a>
+
+  <a data-code="ENT211" class="course-card"><div class="course-icon">💼</div>ENT211</a>
+
+  <a data-code="GST211" class="course-card"><div class="course-icon">📖</div>GST211</a>
+
+ <a data-code="MCB221" class="course-card"><div class="course-icon">🦠</div>MCB221</a>
+
+ <a data-code="MCB203/205" class="course-card"><div class="course-icon">🦠</div>MCB203/205</a>
+
+    </div>
+
+    <div class="notice-box" id="noticeBox">
+        <b>Note:</b> Select a course to view all documents available. Downloads automatically save inside your <b>EYES OF 3080</b> folder.
+    </div>
 </div>
-    <div class="notice-box">
-        <b>Note:</b> To download documents of a course, select your preferred course first.  
-        You will then see all documents available under that course.  
-        <br><br>
-        All downloads are saved inside a folder named <b>EYES OF 3080</b> in your phone’s Download folder.
-    </div>
 
+<!-- COURSE DETAILS -->
+<div id="courseDetails" class="container">
+    <h2 id="courseTitle">Course Title</h2>
+    <p id="courseDesc">Loading...</p>
 
-<div id="courseDetails" class="container" style="display:none;">
+    <button class="accordion-btn">Course Documents (PDF) <span class="arrow">▼</span></button>
+    <div class="accordion-content" id="pdfList">Loading…</div>
 
-    <div class="course-description">
-        <h2 id="courseTitle">Course Title</h2>
-        <p id="courseDesc">Loading...</p>
-    </div>
-
-    <div class="accordion">
-        <div class="accordion-item">
-            <button class="accordion-btn">
-                Course Documents (PDF)
-                <span class="arrow">▼</span>
-            </button>
-            <div class="accordion-content" id="pdfList">Loading…</div>
-        </div>
-
-        <div class="accordion-item">
-            <button class="accordion-btn">
-                Course Videos
-                <span class="arrow">▼</span>
-            </button>
-            <div class="accordion-content" id="videoList">Loading…</div>
-        </div>
-    </div>
-
+    <button class="accordion-btn">Course Videos <span class="arrow">▼</span></button>
+    <div class="accordion-content" id="videoList">Loading…</div>
 </div>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+    <a href="pdf.html"><i class="material-icons-round">home</i><br>Home</a>
+    <a href="course.html"><i class="material-icons-round">description</i><br>PDFs</a>
+    <a href="videos.html"><i class="material-icons-round">play_circle</i><br>Videos</a>
+    <a href="about.html"><i class="material-icons-round">info</i><br>About</a>
+</div>
+
+ 
 
 
 <script>
@@ -231,62 +402,76 @@ document.addEventListener("DOMContentLoaded", () => {
   const SUPABASE_URL = "https://zvnovocoayqomdilidte.supabase.co";
   const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp2bm92b2NvYXlxb21kaWxpZHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwMDM2OTgsImV4cCI6MjA3OTU3OTY5OH0.PcpwASQ3RBRoQVIglxKz-yM3iuYMZMtyQJBh8QNHad8";
   const BUCKET = "uploads";
-
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  const courseCode = new URLSearchParams(window.location.search).get("code");
 
-  loadCourseDescription();
-  loadPDFs();
+  const courseGrid = document.getElementById("courseGrid");
+  const courseDetails = document.getElementById("courseDetails");
+  const courseTitle = document.getElementById("courseTitle");
+  const courseDesc = document.getElementById("courseDesc");
+  const pdfList = document.getElementById("pdfList");
+  const videoList = document.getElementById("videoList");
+  const noticeBox = document.getElementById("noticeBox");
 
-  async function loadCourseDescription() {
-      const { data } = await sb.from("courses").select("*").eq("code", courseCode).single();
-      if (data) {
-          document.getElementById("courseTitle").textContent = data.title;
-          document.getElementById("courseDesc").textContent = data.description;
-      }
-  }
+  // Handle course clicks
+  document.querySelectorAll(".course-card").forEach(card => {
+      card.addEventListener("click", () => {
+          const code = card.dataset.code;
+          showCourse(code);
+      });
+  });
 
+  async function showCourse(code) {
+    // Scroll to top when course details are shown
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  
-  function createPDFCard(file) {
-      const fileURL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${courseCode}/pdfs/${file.name}`;
-      const topic = file.name.replace(/\.[^/.]+$/, "");
-      const date = new Date(file.created_at).toLocaleString();
+    courseGrid.style.display = "none";
+    noticeBox.style.display = "none"; // hide notice when inside course
+    courseDetails.style.display = "block";
 
-      const card = document.createElement("div");
-      card.className = "doc-card";
+    courseTitle.textContent = code;
+    courseDesc.textContent = "Loading…";
 
-      card.innerHTML = `
-          <h3 class="doc-title">${topic}</h3>
-          <p class="doc-date">${date}</p>
+    // Load description
+    const { data } = await sb.from("courses").select("*").eq("code", code).single();
+    courseDesc.textContent = data?.description || "No description available.";
 
-          <div class="doc-actions">
-              <button class="doc-btn copy-btn" data-url="${fileURL}">
-                  <i class="material-icons-round">content_copy</i> Copy Link
-              </button>
+    loadPDFs(code);
+    loadVideos(code);
+}
 
-              <a href="${fileURL}" target="_blank" class="doc-btn">
-                  <i class="material-icons-round">download</i> Download
-              </a>
-          </div>
-      `;
-      return card;
-  }
+  function createPDFCard(file, code) {
+    const fileURL = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${code}/pdfs/${file.name}`;
+    const topic = file.name.replace(/\.[^/.]+$/, "");
+    const date = new Date(file.created_at).toLocaleString();
 
-  async function loadPDFs() {
-      const { data } = await sb.storage.from(BUCKET).list(`${courseCode}/pdfs/`);
-      const list = document.getElementById("pdfList");
-      list.innerHTML = "";
+    const card = document.createElement("div");
+    card.className = "doc-card";
+    card.innerHTML = `
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" class="pdf-icon" />
+        <div style="flex:1">
+          <h3>${topic}</h3>
+          <p>${date}</p>
+        </div>
+        <div class="doc-actions">
+            <button class="doc-btn copy-btn" data-url="${fileURL}">
+                <i class="material-icons-round">content_copy</i> Copy Link
+            </button>
+            <a href="${fileURL}" target="_blank" class="doc-btn">
+                <i class="material-icons-round">download</i> Download
+            </a>
+        </div>
+    `;
+    return card;
+}
 
+  async function loadPDFs(code) {
+      const { data } = await sb.storage.from(BUCKET).list(`${code}/pdfs/`);
+      pdfList.innerHTML = "";
       if (!data || data.length === 0) {
-          list.innerHTML = "<p>No PDFs uploaded.</p>";
+          pdfList.innerHTML = "<p>No PDFs uploaded for this course.</p>";
           return;
       }
-
-      data.forEach(file => {
-          list.appendChild(createPDFCard(file));
-      });
-
+      data.forEach(file => pdfList.appendChild(createPDFCard(file, code)));
       document.querySelectorAll(".copy-btn").forEach(btn => {
           btn.addEventListener("click", () => {
               navigator.clipboard.writeText(btn.dataset.url);
@@ -295,111 +480,53 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-async function loadCourseVideos() {
-  try {
-    const { data } = await sb.storage
-      .from(BUCKET)
-      .list(`${courseCode}/videos`, { limit: 200 });
+  async function loadVideos(code) {
+      const { data } = await sb.storage.from(BUCKET).list(`${code}/videos/`);
+      videoList.innerHTML = "";
+      if (!data || data.length === 0) {
+          videoList.innerHTML = "<p>No videos uploaded yet.</p>";
+          return;
+      }
+      for (const file of data) {
+          const title = file.name.replace(/\.[^/.]+$/, "");
+          const date = new Date(file.created_at).toLocaleString();
 
-    const videoList = document.getElementById("videoList");
-    videoList.innerHTML = "";
+          const { data: fileData, error } = await sb.storage.from(BUCKET).download(`${code}/videos/${file.name}`);
+          if (error) continue;
+          const text = await fileData.text();
 
-    if (!data || data.length === 0) {
-      videoList.innerHTML = "<p>No videos uploaded yet.</p>";
-      return;
-    }
+          let videoId = null;
+          try { videoId = new URL(text.trim()).searchParams.get("v"); } catch {}
+          if (!videoId) continue;
 
-    for (const file of data) {
-      const title = file.name.replace(/\.[^/.]+$/, "");
-      const date = new Date(file.created_at).toLocaleString();
+          const thumbnailURL = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-      // Get the TXT content (YouTube link)
-      const { data: fileData, error: downloadError } = await sb.storage
-        .from(BUCKET)
-        .download(`${courseCode}/videos/${file.name}`);
-
-      if (downloadError) continue;
-
-      const text = await fileData.text();
-      let videoId = null;
-
-      try {
-        const urlObj = new URL(text.trim());
-        videoId = urlObj.searchParams.get("v");
-      } catch {}
-
-      // If videoId is invalid, skip this file
-      if (!videoId) continue;
-
-      // Generate YouTube thumbnail
-      const thumbnailURL = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-      // Create Video Card
-      const card = document.createElement("div");
-      card.className = "video-card";
-      card.style.cssText = `
-        background: #fff;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 18px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        display: flex;
-        gap: 15px;
-        align-items: center;
-      `;
-
-      card.innerHTML = `
-        <img src="${thumbnailURL}" 
-             style="width:120px;height:70px;object-fit:cover;border-radius:12px;" />
-
-        <div style="flex:1;">
-          <h3 style="margin:0;color:#236d2c;font-size:18px;font-weight:700;">
-            ${title}
-          </h3>
-
-          <p style="margin:4px 0;color:#666;font-size:13px;">
-            ${date}
-          </p>
-        </div>
-
-        <a href="videos.html?id=${encodeURIComponent(file.name)}&code=${courseCode}" 
-           style="
-             background:#1bb44a;
-             padding:10px 18px;
-             color:white;
-             border-radius:10px;
-             text-decoration:none;
-             font-weight:700;
-           ">
-           Play
-        </a>
-      `;
-
-      videoList.appendChild(card);
-    }
-
-  } catch (err) {
-    document.getElementById("videoList").innerHTML = "<p>Error loading videos.</p>";
-    console.error(err);
+          const card = document.createElement("div");
+          card.className = "video-card";
+          card.innerHTML = `
+            <img src="${thumbnailURL}" style="width:120px;height:70px;object-fit:cover;border-radius:12px;" />
+            <div class="video-info">
+              <h3>${title}</h3>
+              <p>${date}</p>
+            </div>
+            <a href="videos.html?id=${encodeURIComponent(file.name)}&code=${code}" class="play-btn">Play</a>
+          `;
+          videoList.appendChild(card);
+      }
   }
-}
 
-// CALL FUNCTION
-loadCourseVideos();
-
-  /* ACCORDION */
+  // ACCORDION
   document.querySelectorAll(".accordion-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-          const box = btn.nextElementSibling;
+          const content = btn.nextElementSibling;
           const arrow = btn.querySelector(".arrow");
-          box.style.display = box.style.display === "block" ? "none" : "block";
-          arrow.style.transform = box.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+          content.style.display = content.style.display === "block" ? "none" : "block";
+          arrow.style.transform = content.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
       });
   });
 
 });
 </script>
-
-
 </body>
 </html>
+
