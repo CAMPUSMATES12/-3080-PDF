@@ -8,99 +8,140 @@
 <!-- Google Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
+<!-- PWA MANIFEST -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#003c94">
+
 <style>
-  body {
+/* ===========================
+   GLOBAL STYLES
+=========================== */
+body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #f5f7ff;
     color: #333;
-  }
+}
 
-  /* HEADER */
-  .header {
-    background: linear-gradient(to right, #003c94, #0056d2);
-    padding: 15px 20px;
+/* ===========================
+   HEADER
+=========================== */
+/* HEADER */
+.header {
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #003c94, #0056d2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     color: white;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-  }
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
 
-  .header-left {
+.header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
-  }
+    gap: 16px;
+    flex: 1;
+}
 
-  .header-left img {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
-  }
+.header-left img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    flex-shrink: 0;
+}
 
-  .header-title {
-    font-size: 23px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  .nav-icons {
-    display: flex;
-    gap: 25px;
-    margin-right: 10px;
-  }
-
-  .nav-icons a {
-    color: white;
-    text-decoration: none;
-  }
-
-  .nav-icons i {
-    font-size: 28px;
-    cursor: pointer;
-    transition: 0.2s ease;
-  }
-
-  .nav-icons i:hover {
-    transform: scale(1.15);
-  }
+.header-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
 
 
-  /* PAGE CONTAINER */
-  .container {
+/* ===========================
+   BOTTOM NAVBAR
+=========================== */
+/* NEW NAVBAR */
+    .nav-bar {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 94%;
+        background: rgba(255,255,255,0.35);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        z-index: 999;
+    }
+
+    .nav-bar a {
+        text-decoration: none;
+        text-align: center;
+        color: #003c94;
+        font-size: 12px;
+        font-weight: 600;
+        transition: .25s;
+    }
+
+    .nav-bar i {
+        font-size: 26px;
+        margin-bottom: 4px;
+    }
+
+    .nav-bar a:hover {
+        transform: translateY(-3px);
+    }
+
+/* ===========================
+   PAGE CONTAINER
+=========================== */
+.container {
     max-width: 1000px;
-    margin: 35px auto;
+    margin: 35px auto 120px; /* extra bottom margin for navbar */
     padding: 20px;
-  }
+}
 
-  /* CARD LAYOUT */
-  .card-container {
+/* ===========================
+   CARD LAYOUT
+=========================== */
+.card-container {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
     margin-top: 10px;
-  }
+}
 
-  .card {
+.card {
     flex: 1 1 300px;
     background: white;
-    padding: 22px;
-    border-radius: 14px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-    transition: 0.25s ease;
-    border-top: 4px solid #0056d2;
-  }
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+    border-top: 5px solid #0056d2;
+}
 
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.15);
-  }
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.15);
+}
 
-  .card h3 {
+.card h3 {
     color: #003c94;
     font-size: 20px;
     margin-bottom: 12px;
@@ -108,37 +149,68 @@
     padding-bottom: 6px;
     border-bottom: 3px solid #0056d2;
     display: inline-block;
-  }
+}
 
-  .card p {
+.card p {
     line-height: 1.7;
     margin-bottom: 15px;
     color: #444;
-  }
+}
 
-  .card img {
+.card img {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 15px;
-  }
+}
 
-  .card a {
+.card a {
     display: inline-block;
     margin-top: 10px;
-    padding: 11px 16px;
+    padding: 12px 18px;
     background: #0056d2;
     color: white;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 700;
     transition: 0.2s ease;
-  }
+}
 
-  .card a:hover {
+.card a:hover {
     background: #003c94;
     transform: translateY(-2px);
-  }
+}
 
+/* ===========================
+   RESPONSIVE ADJUSTMENTS
+=========================== */
+@media (max-width: 768px) {
+    .header {
+        padding: 18px 20px;
+    }
+
+    .header-title {
+        font-size: 20px;
+    }
+
+    .card {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-bar {
+        width: 96%;
+        padding: 10px 0;
+    }
+
+    .nav-bar i {
+        font-size: 24px;
+    }
+
+    .nav-bar a {
+        font-size: 11px;
+    }
+}
 </style>
 </head>
 <body>
@@ -148,12 +220,6 @@
   <div class="header-left">
       <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
       <span class="header-title">👀3080 PDF</span>
-  </div>
-  <div class="nav-icons">
-      <a href="pdf.html" data-page="home"><i class="material-icons-round">home</i></a>
-      <a href="course.html" data-page="courses"><i class="material-icons-round">description</i></a>
-      <a href="videos.html" data-page="videos"><i class="material-icons-round">play_circle</i></a>
-      <a href="about.html" data-page="about"><i class="material-icons-round">info</i></a>
   </div>
 </div>
 
@@ -190,6 +256,15 @@
     </div>
   </div>
 </div>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+    <a href="pdf.html"><i class="material-icons-round">home</i><br>Home</a>
+    <a href="course.html"><i class="material-icons-round">description</i><br>PDFs</a>
+    <a href="videos.html"><i class="material-icons-round">play_circle</i><br>Videos</a>
+    <a href="about.html"><i class="material-icons-round">info</i><br>About</a>
+</div>
+
 
 <script>
   // Highlight the active header icon
