@@ -14,14 +14,30 @@
 
 <style>
 /* ===========================
-   BODY & BASE
+   GLOBAL FIX (prevents wobbling)
 =========================== */
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     font-family: Arial, sans-serif;
     background: #f5f7ff;
     color: #333;
+    line-height: 1.5;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
 
 /* ===========================
    HEADER
@@ -43,29 +59,29 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-    flex: 1; /* Takes full width */
+    flex: 1;
+    min-width: 0;    /* prevents overflow */
 }
 
 .header-left img {
     width: 48px;
     height: 48px;
-    border-radius: 12px; /* softly rounded */
+    border-radius: 12px;
     object-fit: cover;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-    flex-shrink: 0; /* Logo stays fixed size */
+    flex-shrink: 0;
 }
 
 .header-title {
     font-size: 26px;
     font-weight: 900;
-    color: #ffffff;
     letter-spacing: 0.6px;
     text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex: 1; /* Title takes all remaining space */
 }
+
+
 
 /* ===========================
    PAGE CONTAINER
@@ -74,177 +90,215 @@ body {
     max-width: 1200px;
     margin: 30px auto;
     padding: 0 15px;
-    padding-bottom: 120px; /* Extra bottom padding for fixed navbar */
+    padding-bottom: 120px; /* space for navbar */
 }
+
+
 
 /* ===========================
    SEARCH BAR
 =========================== */
 .search-bar {
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-.search-bar input { 
-    flex:1; 
-    padding:10px; 
-    border-radius:8px; 
-    border:1px solid #c5d3eb; 
-    font-size:16px; 
-    background:white;
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #c5d3eb;
+    font-size: 16px;
+    background: white;
 }
-.search-bar button { 
-    padding:10px 16px; 
-    border:none; 
-    border-radius:8px; 
-    background:#005ce6; 
-    color:white; 
-    cursor:pointer; 
-    font-weight:600;
-    transition:0.2s;
+
+.search-bar button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #005ce6;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .2s;
 }
-.search-bar button:hover { 
-    background:#003b8e; 
+
+.search-bar button:hover {
+    background: #003b8e;
 }
+
+
 
 /* ===========================
    PLAYER BOX
 =========================== */
-#playerBox { 
-    background: #ffffff; 
-    padding: 20px; 
-    border-radius: 18px; 
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1); 
-    display: none; 
-    margin-bottom: 30px; 
+#playerBox {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    display: none;
+    margin-bottom: 30px;
 }
-#videoPlayerContainer iframe { 
-    width: 100%; 
-    height: 360px; 
-    border-radius: 12px; 
-    border: none; 
+
+#videoPlayerContainer iframe {
+    width: 100%;
+    height: 360px;
+    border-radius: 12px;
+    border: none;
     margin-bottom: 15px;
 }
 
-/* Buttons under player */
 .player-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
 .player-buttons button {
     padding: 14px 0;
     border-radius: 6px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
     background: #005ce6;
     color: #fff;
-    width: 100%;
+    font-weight: 700;
+    border: none;
     font-size: 16px;
-    transition: transform 0.2s, background 0.2s;
+    cursor: pointer;
+    transition: .2s;
 }
+
 .player-buttons button:hover {
     transform: scale(1.02);
-    background:#003b8e;
+    background: #003b8e;
 }
+
+
 
 /* ===========================
    VIDEO GRID
 =========================== */
-.video-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-    gap: 20px; 
-}
-.video-card {
-    background: #ffffff; 
-    border-radius: 14px; 
-    padding: 12px; 
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1); 
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.video-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-}
-.video-card img {
-    width: 100%; 
-    height: 160px; 
-    border-radius: 10px; 
-    object-fit: cover; 
-    margin-bottom: 10px;
-}
-.video-card h3 { 
-    font-size: 16px; 
-    font-weight: 700; 
-    color: #003b8e; 
-    margin: 6px 0 8px; 
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
 }
 
-/* Full-width buttons under each video card */
-.actions { 
+.video-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
     display: flex;
-    flex-direction: column; 
-    gap: 10px;              
-    margin-top: 8px;
+    flex-direction: column;
+    transition: .2s;
 }
+
+.video-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.video-card img {
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.video-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #003b8e;
+    margin: 10px 0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .actions button {
     width: 100%;
     padding: 12px 0;
     border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
     background: #005ce6;
-    color: #ffffff;
-    transition: transform 0.2s, background 0.2s;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
 }
+
 .actions button:hover {
     transform: scale(1.03);
-    background:#003b8e;
+    background: #003b8e;
 }
 
+
+
 /* ===========================
-   NEW BOTTOM NAVBAR
+   BOTTOM NAVBAR
 =========================== */
-/* NEW NAVBAR */
-    .nav-bar {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 94%;
-        background: rgba(255,255,255,0.35);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 12px 0;
-        display: flex;
-        justify-content: space-around;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        z-index: 999;
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 94%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    z-index: 9999;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    text-align: center;
+    color: #003c94;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.nav-bar i {
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.nav-bar a:hover {
+    transform: translateY(-3px);
+}
+
+
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 600px) {
+
+    .header-title {
+        font-size: 22px;
     }
 
-    .nav-bar a {
-        text-decoration: none;
-        text-align: center;
-        color: #003c94;
-        font-size: 12px;
-        font-weight: 600;
-        transition: .25s;
+    .video-card img {
+        height: 150px;
     }
 
-    .nav-bar i {
-        font-size: 26px;
-        margin-bottom: 4px;
+    #videoPlayerContainer iframe {
+        height: 240px;
     }
 
-    .nav-bar a:hover {
-        transform: translateY(-3px);
+    .container {
+        padding-bottom: 150px;
     }
+
+}
 
 </style>
 </head>
