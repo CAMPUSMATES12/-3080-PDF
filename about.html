@@ -14,98 +14,185 @@
 
 <style>
 /* ===========================
-   GLOBAL STYLES
+   GLOBAL RESET
 =========================== */
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: Arial, sans-serif;
-    background: #f5f7ff;
-    color: #333;
+    background: #f2f6fb;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; }
+
+
+/* ===========================
+   SIDEBAR MENU
+=========================== */
+.sidebar {
+    width: 260px;
+    height: 100%;
+    background: #003c94;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -260px;
+    transition: 0.3s ease;
+    z-index: 3000;
+    padding-top: 20px;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.2);
+}
+
+.sidebar.open { left: 0; }
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    font-size: 18px;
+}
+
+.close-btn {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.25s;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.2);
 }
 
 /* ===========================
-   HEADER
+   HEADER + HAMBURGER
 =========================== */
-/* HEADER */
 .header {
     width: 100%;
-    padding: 18px 24px;
+    padding: 16px 20px;
     background: linear-gradient(135deg, #003c94, #0056d2);
+    color: white;
     display: flex;
     align-items: center;
-    color: white;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    z-index: 2000;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
-.header-left {
+.hamburger {
+    font-size: 28px;
+    cursor: pointer;
+    user-select: none;
+    margin-right: 12px;
+}
+
+.header-center {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 16px;
-    flex: 1;
+    justify-content: center;
+    gap: 8px;
 }
 
-.header-left img {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-    flex-shrink: 0;
+.header-center img {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
 }
 
 .header-title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
 }
 
+/* ===========================
+   SEARCH BAR
+=========================== */
+.search-bar-container {
+    width: 100%;
+    background: white;
+    padding: 15px 18px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.search-bar-container input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid #d5dfee;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.search-bar-container button {
+    padding: 12px 18px;
+    background: #0056d2;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.search-bar-container button:hover {
+    background: #003c94;
+}
 
 /* ===========================
-   BOTTOM NAVBAR
+   HERO SECTION
 =========================== */
-/* NEW NAVBAR */
-    .nav-bar {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 94%;
-        background: rgba(255,255,255,0.35);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 12px 0;
-        display: flex;
-        justify-content: space-around;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        z-index: 999;
-    }
+.hero {
+    width: 100%;
+    background: linear-gradient(135deg, #003c94, #0058d9);
+    color: white;
+    padding: 60px 25px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
 
-    .nav-bar a {
-        text-decoration: none;
-        text-align: center;
-        color: #003c94;
-        font-size: 12px;
-        font-weight: 600;
-        transition: .25s;
-    }
+.hero-content h1 {
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
 
-    .nav-bar i {
-        font-size: 26px;
-        margin-bottom: 4px;
-    }
+.hero-content p {
+    font-size: 17px;
+    opacity: 0.9;
+    margin-bottom: 22px;
+}
 
-    .nav-bar a:hover {
-        transform: translateY(-3px);
-    }
+.hero-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: white;
+    color: #003c94;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.25s ease;
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+}
+
 
 /* ===========================
    PAGE CONTAINER
@@ -215,13 +302,43 @@ body {
 </head>
 <body>
 
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h3>Menu</h3>
+        <span class="close-btn" onclick="closeSidebar()">&times;</span>
+    </div>
+
+    <a href="pdf.html">Home</a>
+    <a href="course.html">Course PDFs</a>
+    <a href="videos.html">Videos</a>
+    <a href="about.html">About</a>
+</div>
+
 <!-- HEADER -->
 <div class="header">
-  <div class="header-left">
-      <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo" alt="Logo">
-      <span class="header-title">👀3080 PDF</span>
-  </div>
+    <span class="hamburger" onclick="toggleSidebar()">☰</span>
+
+    <div class="header-center">
+        <img src="https://vtpsruejncfykiazrfsx.supabase.co/storage/v1/object/public/PRODUCTS/EYES%20OF%203080%20logo">
+        <span class="header-title">3080 PDF</span>
+    </div>
 </div>
+
+<!-- SEARCH -->
+<div class="search-bar-container">
+    <input type="text" placeholder="Search for PDFs, videos, courses...">
+    <button>Search</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to 3080 PDF </h1>
+        <p>Access PDFs, videos, updates & school resources — all in one place.</p>
+        <a href="#updates-area" class="hero-btn">View Updates</a>
+    </div>
+</section>
 
 <!-- CONTENT -->
 <div class="container">
@@ -257,13 +374,6 @@ body {
   </div>
 </div>
 
-<!-- NAV BAR -->
-<div class="nav-bar">
-    <a href="pdf.html"><i class="material-icons-round">home</i><br>Home</a>
-    <a href="course.html"><i class="material-icons-round">description</i><br>PDFs</a>
-    <a href="videos.html"><i class="material-icons-round">play_circle</i><br>Videos</a>
-    <a href="about.html"><i class="material-icons-round">info</i><br>About</a>
-</div>
 
 
 <script>
@@ -280,6 +390,14 @@ body {
       link.classList.add('active');
     }
   });
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+}
 </script>
 
 </body>
